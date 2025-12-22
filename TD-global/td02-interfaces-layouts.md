@@ -1,123 +1,69 @@
-# TD02 : Interfaces et layouts
+# TD 02 : Interfaces et Layouts
 
-## 🎯 Objectifs
-
-- Maîtriser ConstraintLayout.
-- Utiliser différents widgets (EditText, Button, CheckBox...).
-- Lier les vues au code Java.
+**Durée** : 2 heures  
+**Objectif** : Maîtriser les layouts Android et créer des interfaces utilisateur complexes.
 
 ---
 
 ## Partie 1 : ConstraintLayout (45 min)
 
-### Exercice 1.1 : Interface de connexion
+### Exercice 1.1 : Formulaire d'inscription
 
-Créer un écran de connexion avec :
+Créer un écran d'inscription avec :
 
-- 2 `EditText` (email, mot de passe).
-- 1 `Button` "Se connecter".
-- 1 `TextView` pour les messages d'erreur.
+- Titre centré : "Inscription"
+- 3 champs `EditText` (nom, email, mot de passe)
+- 1 bouton "S'inscrire"
+- Utiliser **uniquement ConstraintLayout**
 
-Contraintes :
-- Email centré horizontalement, à 30% du haut.
-- Mot de passe 16dp sous l'email.
-- Bouton 24dp sous le mot de passe.
-- TextView en bas de l'écran.
+**Contraintes à respecter** :
+- Le titre doit être centré horizontalement et positionné en haut.
+- Les champs doivent être alignés et espacés également.
+- Le bouton doit être centré horizontalement et positionné sous les champs.
 
-### Exercice 1.2 : Validation du formulaire
-
-Dans `MainActivity.java` :
-
-```java
-EditText editEmail = findViewById(R.id.editEmail);
-EditText editPassword = findViewById(R.id.editPassword);
-Button btnLogin = findViewById(R.id.btnLogin);
-TextView textError = findViewById(R.id.textError);
-
-btnLogin.setOnClickListener(v -> {
-    String email = editEmail.getText().toString();
-    String password = editPassword.getText().toString();
-
-    if (email.isEmpty() || password.isEmpty()) {
-        textError.setText("⚠️ Tous les champs sont obligatoires");
-        textError.setTextColor(Color.RED);
-    } else if (password.length() < 6) {
-        textError.setText("⚠️ Mot de passe trop court (min 6 caractères)");
-    } else {
-        textError.setText("✅ Connexion réussie !");
-        textError.setTextColor(Color.GREEN);
-    }
-});
-```
+**Livrable** : Capture d'écran du Design Editor + fichier XML.
 
 ---
 
-## Partie 2 : Widgets variés (45 min)
+## Partie 2 : LinearLayout et poids (30 min)
 
-### Exercice 2.1 : Formulaire d'inscription
+### Exercice 2.1 : Calculatrice simple
 
-Créer un formulaire avec :
+Créer une interface de calculatrice basique :
 
-- `EditText` : nom, prénom, email, téléphone.
-- `RadioGroup` : sexe (Homme/Femme).
-- `CheckBox` : "J'accepte les conditions".
-- `Button` : "S'inscrire".
+- 1 `TextView` pour l'affichage (en haut)
+- 4 boutons horizontaux : +, -, ×, ÷ (poids égaux)
+- Utiliser `LinearLayout` avec `layout_weight`
 
-### Exercice 2.2 : Afficher les données
-
-À la soumission :
-
-1. Vérifier que tous les champs sont remplis.
-2. Vérifier que la CheckBox est cochée.
-3. Afficher les données dans un Toast ou un TextView.
+**Livrable** : Fichier XML du layout.
 
 ---
 
-## Partie 3 : LinearLayout (30 min)
+## Partie 3 : Combinaison de layouts (45 min)
 
-### Exercice 3.1 : Calculatrice simple
+### Exercice 3.1 : Écran de profil utilisateur
 
-Créer une interface avec LinearLayout vertical :
+Créer un écran de profil avec :
 
-- 2 `EditText` pour les nombres.
-- 4 `Button` (+, -, ×, ÷).
-- 1 `TextView` pour le résultat.
+- En haut : photo de profil (ImageView circulaire) + nom (LinearLayout horizontal)
+- Au centre : informations (email, téléphone, adresse) dans un LinearLayout vertical
+- En bas : 2 boutons (Modifier, Déconnexion) dans un LinearLayout horizontal
 
-Implémenter les 4 opérations.
+**Contraintes** :
+- Utiliser ScrollView comme layout principal pour gérer le défilement.
+- Appliquer des marges et du padding cohérents.
+
+**Livrable** : Projet complet exécutable.
 
 ---
 
-## 🎯 TP Noté : Formulaire de contact (/20)
+## Barème (/20)
 
-### Consignes
-
-Créer une application "Formulaire de Contact" :
-
-1. **Champs** :
-   - Nom (obligatoire).
-   - Email (obligatoire, format validé).
-   - Sujet (obligatoire).
-   - Message (multiligne, obligatoire).
-
-2. **Actions** :
-   - Bouton "Envoyer" : valide et affiche un résumé.
-   - Bouton "Réinitialiser" : vide tous les champs.
-
-3. **Validation** :
-   - Email doit contenir @.
-   - Message min 10 caractères.
-   - Afficher erreurs en rouge.
-
-### Barème
-
-| Critère | Points |
-|---------|--------|
-| Interface complète | 4 |
-| Validation des champs | 6 |
-| Bouton Envoyer fonctionnel | 4 |
-| Bouton Réinitialiser | 2 |
-| Messages d'erreur clairs | 2 |
-| Code propre | 2 |
+| Exercice | Points |
+|----------|--------|
+| Formulaire d'inscription (ConstraintLayout) | 7 |
+| Calculatrice (LinearLayout + weight) | 5 |
+| Écran de profil (combinaison layouts) | 8 |
 
 ---
 
