@@ -1,465 +1,593 @@
-# 🔧 Dépannage Android Studio
+# 🔧 Guide de Dépannage Android Studio
 
-## Problèmes Fréquents et Solutions
+## Problèmes d'Installation
 
-### 1. Erreurs d'Installation
+### 1. Erreur "JDK Not Found"
 
-#### ❌ "Installation failed: Out of disk space"
-
-**Cause** : Espace disque insuffisant
-
-**Solution** :
-```bash
-# Vérifier espace disponible
-# Windows
-wmic logicaldisk get name,freespace
-
-# macOS/Linux
-df -h
-
-# Libérer au moins 15 GB avant d'installer
+**Symptôme** :
+```
+Unable to start the daemon process.
+This problem might be caused by incorrect configuration of the daemon.
+For example, an unrecognized jvm option is used.
 ```
 
----
-
-#### ❌ "Java version not found"
-
-**Cause** : JDK non installé ou version < 17
-
-**Solution** :
-```bash
-# Télécharger JDK 21 (recommandé)
-https://adoptium.net/
-
-# Définir JAVA_HOME
-# Windows (PowerShell Admin)
-[System.Environment]::SetEnvironmentVariable('JAVA_HOME', 'C:\Program Files\Java\jdk-21', 'Machine')
-
-# macOS/Linux (ajouter dans ~/.bashrc ou ~/.zshrc)
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home
-```
-
----
-
-### 2. Problèmes SDK Manager
-
-#### ❌ "Failed to download SDK component"
-
-**Causes possibles** :
-- Connexion internet instable
-- Proxy/Firewall
-- Serveur Google temporairement indisponible
+**Cause** : JDK manquant ou version incorrecte.
 
 **Solutions** :
 
+**Option A** : Utiliser le JDK embarqué (recommandé)
 ```bash
-# 1. Tester connexion
-ping dl.google.com
+# File > Project Structure > SDK Location
+# JDK location : /Applications/Android Studio.app/jbr (macOS)
+# Ou : C:\Program Files\Android\Android Studio\jbr (Windows)
+```
 
-# 2. Configurer proxy
-File → Settings → Appearance & Behavior → System Settings → HTTP Proxy
-→ Manual proxy configuration
-→ Entrer host et port
+**Option B** : Installer JDK 17
+```bash
+# Windows (via Chocolatey)
+choco install openjdk17
 
-# 3. Retry avec miroir Google
-Gradle.properties (ajouter) :
-systemProp.https.proxyHost=<proxy>
-systemProp.https.proxyPort=<port>
+# macOS (via Homebrew)
+brew install openjdk@17
 
-# 4. Forcer re-téléchargement
-Supprimer cache SDK Manager :
-Windows: %USERPROFILE%\.android\cache
-macOS/Linux: ~/.android/cache
+# Ubuntu/Debian
+sudo apt install openjdk-17-jdk
+
+# Vérifier
+java -version
 ```
 
 ---
 
-#### ❌ "SDK location not found"
+### 2. Erreur "SDK Not Found"
 
-**Solution** :
-
-```bash
-# Créer/éditer local.properties à la racine projet
-
-# Windows
-sdk.dir=C:\\Users\\<username>\\AppData\\Local\\Android\\Sdk
-
-# macOS
-sdk.dir=/Users/<username>/Library/Android/sdk
-
-# Linux
-sdk.dir=/home/<username>/Android/Sdk
-
-# Ou via interface
-File → Project Structure → SDK Location → Android SDK location
+**Symptôme** :
+```
+SDK location not found. Define location with sdk.dir in the local.properties file
+or with an ANDROID_HOME environment variable.
 ```
 
----
+**Solution 1** : Définir dans Android Studio
+```
+File > Project Structure > SDK Location
+-> Android SDK location: /Users/nom/Library/Android/sdk
+```
 
-### 3. Problèmes AVD/Émulateur
-
-#### ❌ "Emulator: ERROR: x86 emulation requires hardware acceleration!"
+**Solution 2** : Variable d'environnement
 
 **Windows** :
-
 ```powershell
-# 1. Vérifier VT-x activé dans BIOS
-# Redémarrer → F2/DEL → Advanced → CPU Configuration
-# → Intel Virtualization Technology: Enabled
-
-# 2. Installer HAXM
-# Aller dans SDK Manager → SDK Tools → Intel HAXM
-# Ou manuellement :
-cd %LOCALAPPDATA%\Android\Sdk\extras\intel\Hardware_Accelerated_Execution_Manager
-intelhaxm-android.exe
-
-# 3. Si Hyper-V installé (Windows Pro)
-# Désactiver temporairement
-bcdedit /set hypervisorlaunchtype off
-# Redémarrer
-
-# Pour réactiver plus tard
-bcdedit /set hypervisorlaunchtype auto
+# PowerShell (Admin)
+[System.Environment]::SetEnvironmentVariable(
+    "ANDROID_HOME",
+    "C:\Users\$env:USERNAME\AppData\Local\Android\Sdk",
+    "User"
+)
 ```
 
-**macOS** :
-
+**macOS/Linux** :
 ```bash
-# Vérifier Hypervisor disponible
-sysctl kern.hv_support
-# Doit retourner: kern.hv_support: 1
+# Ajouter à ~/.zshrc ou ~/.bashrc
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-# Si problème persiste
-# Réinitialiser émulateur
-rm -rf ~/.android/avd/<nom_avd>.avd
-# Recréer AVD
+# Recharger
+source ~/.zshrc
 ```
 
-**Linux** :
+---
 
+### 3. Installation Bloquée à 100%
+
+**Symptôme** : "Downloading Components" reste à 100% indéfiniment.
+
+**Causes possibles** :
+- Antivirus bloquant
+- Proxy/Firewall
+- Connexion instable
+
+**Solutions** :
+
+1. **Désactiver antivirus temporairement**
+
+2. **Configurer proxy** (si nécessaire) :
+```
+File > Settings > Appearance & Behavior > System Settings > HTTP Proxy
+-> Manual proxy configuration
+   Host: proxy.exemple.com
+   Port: 8080
+```
+
+3. **Téléchargement manuel** :
+```bash
+# Télécharger SDK manuellement
+# https://developer.android.com/studio#command-tools
+wget https://dl.google.com/android/repository/commandlinetools-linux.zip
+unzip commandlinetools-linux.zip -d ~/Android/sdk/cmdline-tools/latest
+```
+
+---
+
+## Problèmes Gradle
+
+### 4. Gradle Sync Failed
+
+**Symptôme** :
+```
+Gradle sync failed: Connection timed out: connect
+```
+
+**Solutions** :
+
+**1. Invalider caches** :
+```
+File > Invalidate Caches > Invalidate and Restart
+```
+
+**2. Nettoyer projet** :
+```bash
+# Terminal Android Studio
+./gradlew clean
+./gradlew build --refresh-dependencies
+```
+
+**3. Mettre à jour Gradle** :
+```kotlin
+// gradle/wrapper/gradle-wrapper.properties
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.5-bin.zip
+```
+
+**4. Mode offline (si connexion instable)** :
+```
+File > Settings > Build, Execution, Deployment > Gradle
+✅ Offline work
+```
+
+---
+
+### 5. Erreur "Could not resolve dependency"
+
+**Symptôme** :
+```
+Could not resolve com.android.tools.build:gradle:8.5.0
+```
+
+**Solution** : Ajouter dépôts Google
+
+```kotlin
+// settings.gradle.kts
+pluginsManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+```
+
+---
+
+### 6. Build Lent (> 5 minutes)
+
+**Solutions d'optimisation** :
+
+**1. Augmenter mémoire Gradle** :
+```properties
+# gradle.properties
+org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m
+org.gradle.parallel=true
+org.gradle.caching=true
+org.gradle.daemon=true
+```
+
+**2. Activer configuration cache** :
+```properties
+org.gradle.configuration-cache=true
+```
+
+**3. Build Analyzer** :
+```
+Build > Analyze Build Performance
+-> Identifier les tâches lentes
+```
+
+---
+
+## Problèmes Émulateur
+
+### 7. Émulateur Ne Démarre Pas
+
+**Symptôme** : Écran noir ou erreur "The emulator process has terminated"
+
+**Cause** : Accélération matérielle non activée.
+
+**Solution Windows (Intel)** :
+
+1. **Vérifier virtualisation BIOS** :
+```powershell
+systeminfo | findstr "Virtualization"
+# Doit afficher "Enabled"
+```
+
+2. **Installer HAXM** :
+```
+SDK Manager > SDK Tools
+✅ Intel x86 Emulator Accelerator (HAXM)
+
+# Ou manuellement
+cd C:\Users\nom\AppData\Local\Android\Sdk\extras\intel\Hardware_Accelerated_Execution_Manager
+intelhaxm-android.exe
+```
+
+3. **Si erreur HAXM** (Hyper-V conflit) :
+```powershell
+# Désactiver Hyper-V (nécessite redémarrage)
+bcdedit /set hypervisorlaunchtype off
+
+# Ou utiliser WHPX à la place
+SDK Manager > SDK Tools
+✅ Windows Hypervisor Platform
+```
+
+**Solution Windows (AMD)** :
+```powershell
+# Activer Windows Hypervisor Platform
+Enable-WindowsOptionalFeature -Online -FeatureName HypervisorPlatform
+
+# AVD Manager > Edit AVD
+# Graphics: Software - GLES 2.0
+```
+
+**Solution Linux** :
 ```bash
 # Installer KVM
-sudo apt install qemu-kvm libvirt-daemon-system
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
 
 # Ajouter user au groupe kvm
 sudo usermod -aG kvm $USER
 sudo usermod -aG libvirt $USER
 
-# Vérifier KVM fonctionne
+# Vérifier
 kvm-ok
-# Doit afficher: "KVM acceleration can be used"
+# Doit afficher "KVM acceleration can be used"
 
-# Redémarrer session
+# Relancer session
+```
+
+**Solution macOS** :
+```bash
+# macOS utilise Hypervisor Framework nativement
+# Si problème, vérifier permissions
+sudo chown -R $(whoami) ~/Library/Android
 ```
 
 ---
 
-#### ❌ "Emulator: PANIC: Cannot find AVD system path"
+### 8. Émulateur Très Lent
+
+**Optimisations** :
+
+**1. Activer Quick Boot** :
+```
+AVD Manager > Edit AVD > Show Advanced Settings
+✅ Boot option: Quick boot
+✅ Save quick-boot state for faster launching
+```
+
+**2. Réduire résolution** :
+```
+Edit AVD > Show Advanced Settings
+Scaled Density: 240 dpi (au lieu de 420)
+```
+
+**3. Désactiver animations** :
+```
+Émulateur > Settings > Developer options
+Window animation scale: OFF
+Transition animation scale: OFF
+Animator duration scale: OFF
+```
+
+**4. Allouer plus de RAM** :
+```
+Edit AVD > Show Advanced Settings
+RAM: 3072 MB (si PC a 16GB+)
+```
+
+**5. Graphics Hardware** :
+```
+Edit AVD
+Graphics: Hardware - GLES 2.0
+```
+
+---
+
+### 9. Erreur "Insufficient Storage"
+
+**Symptôme** : "Can't install APK: Insufficient storage"
 
 **Solution** :
 
 ```bash
-# Définir variable environnement ANDROID_AVD_HOME
+# Augmenter stockage interne AVD
+AVD Manager > Edit AVD > Show Advanced Settings
+Internal Storage: 4096 MB
 
-# Windows
-setx ANDROID_AVD_HOME "%USERPROFILE%\.android\avd"
-
-# macOS/Linux (~/.bashrc ou ~/.zshrc)
-export ANDROID_AVD_HOME="$HOME/.android/avd"
-
-# Redémarrer Android Studio
+# Ou nettoyer via ADB
+adb shell pm clear com.android.providers.downloads
+adb shell rm -rf /data/local/tmp/*
 ```
 
 ---
 
-#### ❌ AVD très lent
+### 10. Émulateur Perd Connexion Réseau
+
+**Symptôme** : Pas d'accès internet dans l'émulateur.
+
+**Solution 1** : Redémarrer réseau émulateur
+```bash
+adb root
+adb shell svc wifi disable
+adb shell svc wifi enable
+```
+
+**Solution 2** : DNS alternatifs
+```bash
+adb shell setprop net.dns1 8.8.8.8
+adb shell setprop net.dns2 8.8.4.4
+```
+
+**Solution 3** : Proxy émulateur
+```
+AVD Manager > Edit AVD > Show Advanced Settings
+Proxy: Manual
+Host: 127.0.0.1
+Port: 8888 (selon votre proxy)
+```
+
+---
+
+## Problèmes ADB
+
+### 11. ADB Device Offline
+
+**Symptôme** :
+```bash
+adb devices
+# emulator-5554   offline
+```
 
 **Solutions** :
 
 ```bash
-# 1. Vérifier accélération hardware activée
-AVD Manager → Edit AVD → Show Advanced Settings
-Emulated Performance:
-  Graphics: Hardware - GLES 2.0 (ou Automatic)
-
-# 2. Augmenter RAM allouée
-RAM: 4096 MB (au lieu de 2048)
-VM Heap: 512 MB
-
-# 3. Utiliser architecture x86_64
-Système: x86_64 avec Google APIs
-
-# 4. Activer Quick Boot
-Boot option: Quick boot
-
-# 5. Si toujours lent → utiliser appareil réel via USB
-```
-
----
-
-### 4. Problèmes Gradle
-
-#### ❌ "Gradle sync failed"
-
-**Solutions multiples** :
-
-```bash
-# 1. Nettoyer cache Gradle
-File → Invalidate Caches... → Invalidate and Restart
-
-# 2. Supprimer cache manuellement
-# Windows
-rmdir /s /q %USERPROFILE%\.gradle\caches
-
-# macOS/Linux
-rm -rf ~/.gradle/caches
-
-# 3. Forcer re-téléchargement dépendances
-./gradlew clean build --refresh-dependencies
-
-# 4. Vérifier version Gradle compatible
-# gradle/wrapper/gradle-wrapper.properties
-distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
-```
-
----
-
-#### ❌ "Could not resolve all dependencies"
-
-**Solution** :
-
-```gradle
-// build.gradle (Project)
-allprojects {
-    repositories {
-        google()        // Obligatoire en premier
-        mavenCentral()
-        // Si utilisation bibliothèque externe
-        maven { url 'https://jitpack.io' }
-    }
-}
-
-// Vérifier connexion internet
-// Vérifier firewall n'empêche pas téléchargement
-```
-
----
-
-#### ❌ "Gradle build daemon disappeared unexpectedly"
-
-**Cause** : Mémoire insuffisante
-
-**Solution** :
-
-```bash
-# Augmenter heap Gradle
-# Créer/éditer gradle.properties
-
-org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=512m
-org.gradle.parallel=true
-org.gradle.caching=true
-```
-
----
-
-### 5. Problèmes ADB
-
-#### ❌ "adb: command not found"
-
-**Solution** :
-
-```bash
-# Ajouter platform-tools au PATH
-
-# Windows (PowerShell Admin)
-$env:Path += ";C:\Users\<username>\AppData\Local\Android\Sdk\platform-tools"
-
-# Permanent
-[System.Environment]::SetEnvironmentVariable(
-    "Path",
-    [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\Users\<username>\AppData\Local\Android\Sdk\platform-tools",
-    "Machine"
-)
-
-# macOS/Linux (~/.bashrc ou ~/.zshrc)
-export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
-
-# Recharger
-source ~/.bashrc  # ou ~/.zshrc
-```
-
----
-
-#### ❌ "adb devices" ne montre rien (appareil réel)
-
-**Solutions** :
-
-```bash
-# 1. Vérifier débogage USB activé sur téléphone
-Paramètres → À propos → Taper 7x "Numéro de build"
-Paramètres → Options développeur → Débogage USB: ON
-
-# 2. Autoriser ordinateur sur téléphone
-# Popup "Autoriser débogage USB" → Toujours autoriser
-
-# 3. Tester avec autre câble USB (certains = charge uniquement)
-
-# 4. Redémarrer serveur ADB
+# 1. Redémarrer serveur ADB
 adb kill-server
 adb start-server
 adb devices
 
-# 5. Windows : Installer driver USB
-OEM USB Drivers: https://developer.android.com/studio/run/oem-usb
+# 2. Redémarrer ADB sur émulateur
+adb -s emulator-5554 reboot
 
-# 6. Vérifier mode connexion
-Mode fichiers / MTP (pas charge uniquement)
+# 3. Si persistant, supprimer .android
+rm -rf ~/.android/adbkey*
+adb kill-server
+adb start-server
 ```
 
 ---
 
-### 6. Problèmes Performance
+### 12. Multiple Devices Connected
 
-#### 🐌 Android Studio très lent
+**Symptôme** : Erreur "more than one device/emulator"
+
+**Solution** : Spécifier appareil
+
+```bash
+# Lister appareils
+adb devices
+# emulator-5554   device
+# ZY226XXXXX      device
+
+# Spécifier avec -s
+adb -s emulator-5554 install app.apk
+adb -s ZY226XXXXX logcat
+
+# Ou via variable
+export ANDROID_SERIAL=emulator-5554
+adb install app.apk
+```
+
+---
+
+### 13. Port 5037 Déjà Utilisé
+
+**Symptôme** :
+```
+cannot bind 'tcp:5037': Address already in use
+```
+
+**Solution** :
+
+**Windows** :
+```powershell
+# Trouver processus utilisant port 5037
+netstat -ano | findstr :5037
+
+# Tuer processus (remplacer PID)
+taskkill /PID 12345 /F
+
+# Redémarrer ADB
+adb start-server
+```
+
+**Linux/macOS** :
+```bash
+# Trouver PID
+lsof -i :5037
+
+# Tuer
+kill -9 <PID>
+
+# Redémarrer
+adb start-server
+```
+
+---
+
+## Problèmes Interface
+
+### 14. Android Studio Freeze
+
+**Solutions** :
+
+**1. Augmenter mémoire IDE** :
+```
+Help > Edit Custom VM Options
+
+# studio.vmoptions
+-Xms2048m
+-Xmx8192m
+-XX:ReservedCodeCacheSize=1024m
+```
+
+**2. Désactiver plugins non utilisés** :
+```
+File > Settings > Plugins
+-> Désactiver plugins inutiles
+```
+
+**3. Exclure fichiers indexation** :
+```
+File > Settings > Editor > File Types
+Ignored Files and Folders:
+add: *.iml;.idea;.gradle;build;
+```
+
+---
+
+### 15. Logcat Ne S'Affiche Pas
+
+**Symptôme** : Panneau Logcat vide.
+
+**Solutions** :
+
+```
+# 1. Vérifier filtre
+Logcat > Niveau: Verbose
+Logcat > Filtre: No Filters
+
+# 2. Redémarrer Logcat
+Logcat > Gear icon > Clear logcat
+Logcat > Pause/Resume
+
+# 3. Via Terminal
+adb logcat -c  # Clear
+adb logcat    # Voir logs
+```
+
+---
+
+## Problèmes Build
+
+### 16. R.java Not Generated
+
+**Symptôme** : "Cannot resolve symbol R"
+
+**Causes** :
+- Erreur XML ressources
+- Problème Gradle sync
+- Cache corrompu
 
 **Solutions** :
 
 ```bash
-# 1. Augmenter mémoire IDE
-Help → Edit Custom VM Options
+# 1. Vérifier erreurs XML
+Build > Make Project (Ctrl+F9)
+-> Corriger erreurs res/*.xml
 
-# Modifier/Ajouter
--Xms2048m        # Heap initial
--Xmx8192m        # Heap max (ajuster selon RAM)
--XX:ReservedCodeCacheSize=512m
--XX:+UseG1GC
+# 2. Clean + Rebuild
+Build > Clean Project
+Build > Rebuild Project
 
-# 2. Désactiver plugins inutiles
-File → Settings → Plugins
-→ Désactiver Markdown, CVS, etc.
+# 3. Invalider caches
+File > Invalidate Caches > Invalidate and Restart
 
-# 3. Exclure dossiers du scan
-File → Settings → Editor → File Types
-→ Ignore files and folders
-Ajouter: *.iml;.idea;.gradle;build;
-
-# 4. Augmenter Gradle heap
-gradle.properties:
-org.gradle.jvmargs=-Xmx4096m
-org.gradle.daemon=true
-org.gradle.parallel=true
-
-# 5. SSD fortement recommandé (vs HDD)
+# 4. Supprimer build
+rm -rf app/build
+./gradlew clean build
 ```
 
 ---
 
-### 7. Problèmes Spécifiques OS
+### 17. Manifest Merge Failed
 
-#### 🪟 Windows : Chemin trop long
+**Symptôme** :
+```
+Manifest merger failed : Attribute application@appComponentFactory
+```
 
-**Erreur** : "The filename or extension is too long"
+**Solution** : Ajouter outils fusion
 
-**Solution** :
-
-```powershell
-# Activer chemins longs (PowerShell Admin)
-New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
--Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
-
-# Redémarrer
-
-# Ou déplacer projet plus près racine
-C:\AndroidProjects\MonApp
-# Au lieu de
-C:\Users\NomTresLong\Documents\Projets\Android\MonAppli
+```xml
+<!-- AndroidManifest.xml -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <application
+        tools:replace="android:appComponentFactory"
+        android:appComponentFactory="whatever"
+        ... >
 ```
 
 ---
 
-#### 🍎 macOS : "Android Studio is damaged"
+## Conseils Prévention
 
-**Solution** :
+### Maintenance Régulière
 
+**Chaque semaine** :
 ```bash
-# Autoriser app non signée
-sudo xattr -cr /Applications/Android\ Studio.app
+# Nettoyer builds
+./gradlew clean
 
-# Relancer
+# Mettre à jour SDK
+SDK Manager > Check for updates
+
+# Nettoyer caches Gradle
+rm -rf ~/.gradle/caches
 ```
 
----
+**Chaque mois** :
+```
+File > Invalidate Caches > Invalidate and Restart
 
-#### 🐧 Linux : Problèmes graphiques
+Help > Check for Updates
+```
 
-**Solution** :
-
+**Sauvegardes** :
 ```bash
-# Si interface mal affichée
-# Éditer studio.sh, ajouter avant dernière ligne:
-export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
+# Sauvegarder AVDs
+cp -r ~/.android/avd backup_avd/
 
-# Lancer
-./studio.sh
+# Sauvegarder settings
+cp -r ~/.AndroidStudio* backup_settings/
 ```
 
 ---
 
-## 🆘 Dernier Recours
+## Ressources Supplémentaires
 
-### Réinstallation complète
-
-```bash
-# 1. Désinstaller Android Studio
-# Windows: Panneau de configuration → Désinstaller
-# macOS: Glisser Android Studio vers Corbeille
-# Linux: sudo apt remove android-studio
-
-# 2. Supprimer dossiers configuration
-
-# Windows
-rmdir /s /q %USERPROFILE%\.android
-rmdir /s /q %USERPROFILE%\.AndroidStudio*
-rmdir /s /q %LOCALAPPDATA%\Android
-rmdir /s /q %USERPROFILE%\.gradle
-
-# macOS
-rm -rf ~/.android
-rm -rf ~/Library/Android
-rm -rf ~/Library/Application\ Support/Google/AndroidStudio*
-rm -rf ~/.gradle
-
-# Linux
-rm -rf ~/.android
-rm -rf ~/.AndroidStudio*
-rm -rf ~/Android
-rm -rf ~/.gradle
-
-# 3. Réinstaller Android Studio (guide ci-dessus)
-```
-
----
-
-## 📞 Obtenir de l'Aide
-
-### Forums et Communautés
-
+- [Issue Tracker Android](https://issuetracker.google.com/issues?q=componentid:192708)
 - [Stack Overflow - android-studio](https://stackoverflow.com/questions/tagged/android-studio)
 - [Reddit r/androiddev](https://reddit.com/r/androiddev)
-- [Android Developers Discord](https://discord.gg/androiddev)
-
-### Logs Utiles
-
-```bash
-# Logs Android Studio
-Help → Show Log in Explorer/Finder/Files
-
-# Logs Gradle
-./gradlew build --stacktrace --debug > build.log
-
-# Logs émulateur
-adb logcat > emulator.log
-```
 
 ---
 
