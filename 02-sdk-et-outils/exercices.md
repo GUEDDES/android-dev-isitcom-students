@@ -1,378 +1,331 @@
 # 🏋️ Exercices Pratiques : SDK et Outils
 
-## Exercice 1 : Installation et Vérification
+## Exercice 1 : Installation et Vérification (⭐)
 
 ### Objectif
-Vérifier que votre environnement est correctement configuré.
+Vérifier que votre environnement est correctement installé.
 
-### Consignes
+### Instructions
 
-1. **Vérifier la version d'Android Studio** :
-   - Menu : `Help > About`
-   - Noter la version (ex: 2024.2.1)
+1. **Ouvrir un terminal/invite de commandes**
 
-2. **Vérifier les SDK installés** :
-   - Ouvrir SDK Manager
-   - Prendre une capture d'écran de l'onglet "SDK Platforms"
-   - Vérifier API 24, 34, 35
-
-3. **Tester ADB** :
-   ```bash
-   # Ouvrir Terminal dans Android Studio
-   adb version
-   adb devices
-   ```
-   - Copier le résultat
-
-4. **Calculer l'espace disque utilisé** :
-   - SDK Manager > Android SDK Location
-   - Noter le chemin
-   - Vérifier la taille du dossier
-
-### Livrables
-
-- Document PDF avec :
-  - Version Android Studio
-  - Capture SDK Manager
-  - Résultat commandes ADB
-  - Espace disque utilisé
-
----
-
-## Exercice 2 : Création d'Émulateurs
-
-### Objectif
-Créer plusieurs émulateurs pour tests multiples.
-
-### Consignes
-
-Créer 3 AVD différents :
-
-#### AVD 1 : Smartphone Moderne
-- **Appareil** : Pixel 8
-- **Système** : API 35 (Android 15)
-- **Nom** : `Modern_Phone_API35`
-- **RAM** : 2048 MB
-- **Résolution** : 1080x2400
-
-#### AVD 2 : Smartphone Ancien
-- **Appareil** : Pixel 4
-- **Système** : API 24 (Android 7.0)
-- **Nom** : `Legacy_Phone_API24`
-- **RAM** : 1536 MB
-- **Résolution** : 1080x1920
-
-#### AVD 3 : Tablette
-- **Appareil** : Pixel Tablet
-- **Système** : API 34 (Android 14)
-- **Nom** : `Tablet_API34`
-- **RAM** : 3072 MB
-- **Résolution** : 2560x1600
-
-### Tâches
-
-1. Créer les 3 AVD
-2. Lancer chaque AVD et prendre une capture
-3. Mesurer le temps de démarrage de chacun
-4. Tester la rotation (portrait ↔ paysage)
-5. Noter les différences d'interface
-
-### Livrables
-
-- 3 captures d'écran des AVD lancés
-- Tableau comparatif :
-
-| AVD | Temps démarrage | RAM utilisée | Fluidité |
-|-----|-----------------|--------------|----------|
-| Modern | ? | ? | ? |
-| Legacy | ? | ? | ? |
-| Tablet | ? | ? | ? |
-
----
-
-## Exercice 3 : Commandes ADB
-
-### Objectif
-Manipuler ADB pour interagir avec un émulateur.
-
-### Prérequis
-Lancer un AVD (n'importe lequel).
-
-### Consignes
-
-Exécuter les commandes suivantes et noter les résultats :
+2. **Exécuter les commandes suivantes** et noter les résultats :
 
 ```bash
-# 1. Lister les appareils
+# Vérifier ADB
+adb version
+
+# Lister les SDK installés
+sdkmanager --list | grep "system-images"
+
+# Vérifier Java
+java -version
+```
+
+### Résultat attendu
+
+```
+Android Debug Bridge version 1.0.41
+Version 35.0.X
+
+openjdk version "17.0.X"
+```
+
+### Livrables
+
+Capture d'écran montrant les 3 commandes exécutées avec succès.
+
+---
+
+## Exercice 2 : Création d'AVD Multi-versions (⭐⭐)
+
+### Objectif
+Créer plusieurs émulateurs pour tester sur différentes versions Android.
+
+### Instructions
+
+1. **Créer 3 AVD** avec les configurations suivantes :
+
+#### AVD 1 : Test Moderne
+- **Nom** : `Pixel6_API35_Modern`
+- **Device** : Pixel 6
+- **System Image** : API 35 (Android 15) - Google Play
+- **RAM** : 4096 MB
+- **Graphics** : Hardware
+
+#### AVD 2 : Test Standard
+- **Nom** : `Pixel5_API34_Standard`
+- **Device** : Pixel 5
+- **System Image** : API 34 (Android 14) - Google APIs
+- **RAM** : 2048 MB
+- **Graphics** : Hardware
+
+#### AVD 3 : Test Compatibilité
+- **Nom** : `Nexus5_API24_Compat`
+- **Device** : Nexus 5
+- **System Image** : API 24 (Android 7.0)
+- **RAM** : 2048 MB
+- **Graphics** : Automatic
+
+2. **Lancer chaque AVD** et vérifier qu'il démarre correctement
+
+3. **Mesurer le temps de démarrage** de chacun
+
+### Livrables
+
+- Capture d'écran du Device Manager montrant les 3 AVD créés
+- Tableau des temps de démarrage
+- Screenshot de chaque émulateur lancé
+
+### Questions
+
+1. Quel AVD démarre le plus rapidement ? Pourquoi ?
+2. Quelle différence observez-vous entre Google Play et Google APIs ?
+
+---
+
+## Exercice 3 : Maîtriser ADB (⭐⭐)
+
+### Objectif
+Utiliser les commandes ADB pour manipuler un émulateur.
+
+### Instructions
+
+1. **Lancer un émulateur** (n'importe lequel)
+
+2. **Vérifier la connexion** :
+```bash
 adb devices
-# Résultat attendu : emulator-5554    device
+```
 
-# 2. Obtenir des infos système
-adb shell getprop ro.build.version.release
-adb shell getprop ro.product.model
-adb shell getprop ro.build.version.sdk
+3. **Installer une application système** :
+```bash
+# Télécharger une APK simple (ex: calculatrice)
+# Installer avec ADB
+adb install calculator.apk
+```
 
-# 3. Lister les apps installées
-adb shell pm list packages | grep google
+4. **Explorer le système de fichiers** :
+```bash
+adb shell ls /sdcard/
+adb shell ls /system/app/
+```
 
-# 4. Créer un fichier sur l'émulateur
-echo "Hello ISITCom" > test.txt
-adb push test.txt /sdcard/Download/
+5. **Créer un fichier de test** :
+```bash
+adb shell "echo 'Test ISITCOM' > /sdcard/test.txt"
+adb shell cat /sdcard/test.txt
+```
 
-# 5. Vérifier le fichier
-adb shell ls /sdcard/Download/
-adb shell cat /sdcard/Download/test.txt
+6. **Récupérer le fichier** :
+```bash
+adb pull /sdcard/test.txt ./
+```
 
-# 6. Récupérer le fichier
-adb pull /sdcard/Download/test.txt test_downloaded.txt
-cat test_downloaded.txt
-
-# 7. Prendre une capture d'écran
+7. **Prendre un screenshot** :
+```bash
 adb shell screencap /sdcard/screenshot.png
-adb pull /sdcard/screenshot.png .
+adb pull /sdcard/screenshot.png
+```
 
-# 8. Enregistrer une vidéo (Ctrl+C pour arrêter)
-adb shell screenrecord /sdcard/demo.mp4
-# Attendre 5 secondes, Ctrl+C
-adb pull /sdcard/demo.mp4 .
-
-# 9. Voir les logs en temps réel
-adb logcat | grep ISITCom
-# Taper quelque chose dans l'émulateur
-
-# 10. Redémarrer l'émulateur
-adb reboot
+8. **Voir les logs système** :
+```bash
+adb logcat | grep "System"
 ```
 
 ### Livrables
 
-- Document avec résultats de chaque commande
-- Fichier `screenshot.png` récupéré
-- Explication de ce que fait chaque commande
+- Document texte avec **toutes les commandes exécutées**
+- Screenshots des résultats
+- Fichier `test.txt` récupéré
+- Screenshot de l'émulateur
 
 ---
 
-## Exercice 4 : Configuration Avancée
+## Exercice 4 : Optimisation Émulateur (⭐⭐⭐)
 
 ### Objectif
-Personnaliser Android Studio pour productivité maximale.
+Comparer les performances avec/sans accélération matérielle.
 
-### Consignes
+### Instructions
 
-#### 1. Thème et Apparence
+#### Partie A : Sans accélération
 
-- `File > Settings > Appearance & Behavior > Appearance`
-- Tester les thèmes : Darcula, Light, High Contrast
-- Choisir votre préféré
+1. Créer un AVD **sans accélération** :
+   - Graphics : Software
+   - Boot option : Cold boot
+   - RAM : 1536 MB
 
-#### 2. Éditeur de Code
+2. Mesurer :
+   - Temps de démarrage
+   - Fluidité des animations (subjectif)
+   - Temps pour ouvrir l'app Paramètres
 
-- `Settings > Editor > Font`
-  - Police : JetBrains Mono (ou Fira Code)
-  - Taille : 14
-  - Line spacing : 1.2
+#### Partie B : Avec accélération
 
-- `Settings > Editor > Color Scheme`
-  - Tester différents schemes
-  - Recommandation : Darcula, Monokai, One Dark
+1. Créer un AVD **avec accélération** :
+   - Graphics : Hardware - GLES 2.0
+   - Boot option : Quick boot
+   - RAM : 4096 MB
+   - Vérifier HAXM/KVM activé
 
-#### 3. Raccourcis Clavier
-
-Apprendre ces raccourcis :
-
-| Action | Windows/Linux | macOS |
-|--------|---------------|-------|
-| Recherche globale | Ctrl + Shift + F | Cmd + Shift + F |
-| Auto-format code | Ctrl + Alt + L | Cmd + Opt + L |
-| Complétion code | Ctrl + Space | Ctrl + Space |
-| Renommer | Shift + F6 | Shift + F6 |
-| Exécuter app | Shift + F10 | Ctrl + R |
-| Déboguer app | Shift + F9 | Ctrl + D |
-| Build project | Ctrl + F9 | Cmd + F9 |
-
-#### 4. Plugins Utiles
-
-- `Settings > Plugins`
-- Installer :
-  - ✅ **Rainbow Brackets** : Colorer les parenthèses
-  - ✅ **Material Theme UI** : Interface moderne
-  - ✅ **Key Promoter X** : Apprendre raccourcis
-  - ✅ **GitToolBox** : Infos Git inline
-
-#### 5. Performance
-
-- `Help > Edit Custom VM Options`
-- Augmenter la mémoire :
-  ```
-  -Xms2048m
-  -Xmx8192m
-  ```
+2. Mesurer les mêmes critères
 
 ### Livrables
 
-- Capture d'écran de votre Android Studio personnalisé
-- Liste des 5 raccourcis que vous utiliserez le plus
-- Nom du thème choisi
+**Tableau comparatif** :
+
+| Critère | Sans accélération | Avec accélération | Gain |
+|---------|-------------------|-------------------|
+------|
+| Temps boot | | | |
+| Fluidité | | | |
+| Ouverture app | | | |
+
+**Analyse** : Rédiger un paragraphe (5-10 lignes) expliquant l'importance de l'accélération matérielle.
 
 ---
 
-## Exercice 5 : Résolution de Problèmes
+## Exercice 5 : Dépannage Avancé (⭐⭐⭐)
 
 ### Objectif
-Apprendre à diagnostiquer et résoudre les problèmes courants.
+Résoudre des problèmes courants d'installation.
 
-### Scénarios à Résoudre
+### Scénarios à simuler et résoudre
 
-#### Scénario 1 : Gradle Sync Failed
+#### Scénario 1 : Port ADB occupé
 
-**Problème simulé** :
-```
-Could not resolve com.android.tools.build:gradle:8.5.0
+```bash
+# Tuer le serveur ADB
+adb kill-server
+
+# Identifier le processus utilisant le port 5037
+# Windows
+netstat -ano | findstr :5037
+
+# Linux/Mac
+lsof -i :5037
+
+# Redémarrer ADB
+adb start-server
+adb devices
 ```
 
-**Tâches** :
-1. Identifier la cause probable
-2. Proposer 3 solutions
-3. Expliquer comment vérifier la connexion Maven
+#### Scénario 2 : Gradle cache corrompu
 
-#### Scénario 2 : Émulateur Lent
+```bash
+# Supprimer le cache Gradle
+# Windows
+rmdir /s %USERPROFILE%\.gradle\caches
 
-**Problème** : Émulateur prend 5 minutes à démarrer
+# Linux/Mac
+rm -rf ~/.gradle/caches
 
-**Tâches** :
-1. Vérifier l'accélération matérielle
-2. Configurer "Quick Boot"
-3. Optimiser les paramètres AVD (RAM, Graphics)
-4. Comparer avant/après
+# Resynchroniser
+./gradlew clean build --refresh-dependencies
+```
 
-#### Scénario 3 : ADB Device Not Found
+#### Scénario 3 : Émulateur figé
 
-**Problème** : `adb devices` ne liste rien
+```bash
+# Lister les émulateurs en cours
+adb devices
 
-**Tâches** :
-1. Redémarrer serveur ADB : `adb kill-server && adb start-server`
-2. Vérifier ports utilisés : `netstat -an | grep 5037`
-3. Autoriser sur appareil si réel
-4. Tester avec émulateur
+# Redémarrer l'émulateur
+adb -s emulator-5554 reboot
 
-### Livrables
-
-- Document décrivant :
-  - Diagnostic de chaque problème
-  - Solutions appliquées
-  - Résultat final
-  - Leçons apprises
-
----
-
-## Exercice 6 : Benchmark Émulateur
-
-### Objectif
-Comparer performances émulateur vs appareil réel.
-
-### Consignes
-
-Si vous avez un smartphone Android :
-
-1. **Installer une app de benchmark** (via Play Store sur les deux) :
-   - AnTuTu Benchmark
-   - Ou Geekbench
-
-2. **Exécuter le benchmark** :
-   - Sur l'émulateur (API 35)
-   - Sur votre smartphone réel
-
-3. **Comparer les résultats** :
-   - Score CPU
-   - Score GPU
-   - Score RAM
-   - Score I/O
-
-4. **Analyser** :
-   - Quelles différences ?
-   - Pourquoi ?
-   - Quand utiliser émulateur vs réel ?
+# Ou forcer l'arrêt
+adb -s emulator-5554 emu kill
+```
 
 ### Livrables
 
-- Captures d'écran des scores
-- Tableau comparatif
-- Analyse (minimum 200 mots)
+- **Guide de dépannage** (format PDF ou Markdown)
+- Au moins **5 problèmes** avec leurs solutions
+- Captures d'écran des résolutions
 
 ---
 
-## Exercice 7 : Automatisation ADB
+## Exercice 6 : Configuration Multi-OS (⭐⭐⭐⭐)
 
 ### Objectif
-Créer un script pour automatiser des tâches ADB.
+Documenter l'installation complète pour les 3 OS.
 
-### Consignes
+### Instructions
 
-Créer un script bash (Linux/Mac) ou PowerShell (Windows) qui :
+Créer un **guide d'installation illustré** pour :
 
-1. Vérifie si un appareil est connecté
-2. Affiche les infos système (modèle, version Android)
-3. Liste les apps installées
-4. Prend une capture d'écran
-5. La sauvegarde avec timestamp
+1. **Windows 10/11**
+2. **macOS (Intel et Apple Silicon)**
+3. **Ubuntu 22.04 LTS**
 
-**Script bash** :
+Pour chaque OS, documenter :
+- Prérequis système
+- Étapes d'installation Android Studio
+- Configuration SDK
+- Création AVD
+- Test avec commande `adb devices`
+- Problèmes spécifiques à l'OS
+
+### Livrables
+
+**Document structuré** (15-20 pages) avec :
+- Table des matières
+- Captures d'écran à chaque étape
+- Encadrés "⚠️ Attention" pour pièges
+- Section "❌ Problèmes connus"
+
+---
+
+## Projet Bonus : Script d'Installation Automatique (⭐⭐⭐⭐⭐)
+
+### Objectif
+Créer un script qui automatise l'installation.
+
+### Fonctionnalités requises
+
 ```bash
 #!/bin/bash
+# install-android-env.sh
 
-echo "=== ISITCom ADB Tool ==="
-
-# Vérifier appareil
-if ! adb devices | grep -q "device$"; then
-    echo "❌ Aucun appareil connecté"
-    exit 1
-fi
-
-echo "✅ Appareil détecté"
-
-# Infos système
-echo "📱 Modèle: $(adb shell getprop ro.product.model)"
-echo "🤖 Android: $(adb shell getprop ro.build.version.release)"
-echo "🔢 API: $(adb shell getprop ro.build.version.sdk)"
-
-# Nombre d'apps
-app_count=$(adb shell pm list packages | wc -l)
-echo "📦 Apps installées: $app_count"
-
-# Capture
-timestamp=$(date +%Y%m%d_%H%M%S)
-filename="screenshot_$timestamp.png"
-adb shell screencap /sdcard/$filename
-adb pull /sdcard/$filename .
-adb shell rm /sdcard/$filename
-
-echo "📸 Capture sauvegardée: $filename"
-echo "✅ Terminé!"
+# Vérifier prérequis
+# Télécharger Android Studio
+# Extraire archive
+# Configurer SDK
+# Télécharger system images API 35, 34, 24
+# Créer 2 AVD par défaut
+# Configurer variables d'environnement
+# Vérifier installation
 ```
 
 ### Livrables
 
-- Script fonctionnel
-- Capture d'écran de l'exécution
-- Documentation du script
+- **Script bash** (Linux/Mac) ou **PowerShell** (Windows)
+- **README** expliquant l'usage
+- **Vidéo** (2-3 min) de démonstration
 
 ---
 
-## Barème Total
+## 📊 Barème
 
-| Exercice | Points |
-|----------|--------|
-| Ex 1 : Installation | 10 pts |
-| Ex 2 : AVD | 15 pts |
-| Ex 3 : ADB | 20 pts |
-| Ex 4 : Configuration | 15 pts |
-| Ex 5 : Troubleshooting | 20 pts |
-| Ex 6 : Benchmark | 10 pts |
-| Ex 7 : Script | 10 pts |
-| **Total** | **100 pts** |
+| Exercice | Points | Difficulté |
+|----------|--------|------------|
+| Exercice 1 | 5 | ⭐ |
+| Exercice 2 | 10 | ⭐⭐ |
+| Exercice 3 | 10 | ⭐⭐ |
+| Exercice 4 | 15 | ⭐⭐⭐ |
+| Exercice 5 | 20 | ⭐⭐⭐ |
+| Exercice 6 | 30 | ⭐⭐⭐⭐ |
+| Bonus | 10 | ⭐⭐⭐⭐⭐ |
 
-**Obligatoire** : Ex 1-5  
-**Bonus** : Ex 6-7
+**Total** : 100 points (+ 10 bonus)
+
+## ⏰ Durée Estimée
+
+- Exercices 1-3 : 1h30
+- Exercices 4-5 : 2h
+- Exercice 6 : 3h
+- Bonus : 2h
 
 ---
 

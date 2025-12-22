@@ -1,397 +1,461 @@
-# Module 2 : SDK et Outils de Développement
+# Module 2 : SDK Android et Outils de Développement
 
 ## 🎯 Objectifs d'apprentissage
 
 À la fin de ce module, vous serez capable de :
-- Installer et configurer Android Studio correctement
-- Comprendre le rôle du SDK Android et ses composants
+- Installer Android Studio sur votre système
+- Configurer le SDK Android avec les bonnes versions
 - Créer et gérer des émulateurs (AVD)
-- Utiliser les outils essentiels (SDK Manager, AVD Manager, ADB)
-- Résoudre les problèmes courants d'installation
+- Utiliser les outils de débogage (ADB, Logcat)
+- Résoudre les problèmes d'installation courants
 
-## 📚 Contenu du module
+## 📋 Prérequis Système
 
-### 1. Android Studio : IDE Officiel
-
-**Android Studio** est l'environnement de développement intégré (IDE) officiel pour Android, basé sur IntelliJ IDEA.
-
-#### Pourquoi Android Studio ?
-
-- **Officiel** : Maintenu par Google
-- **Tout-en-un** : IDE + SDK + Émulateur + Outils
-- **Puissant** : Autocomplétion intelligente, refactoring, débogage
-- **Gratuit** : 100% gratuit et open source
-- **Moderne** : Support Kotlin, Compose, IA intégrée (2025)
-
-#### Versions
-
-| Version | Nom de code | Date | Nouveautés |
-|---------|-------------|------|------------|
-| 2024.1 | Koala | Mai 2024 | Compose Preview amélioré |
-| 2024.2 | Ladybug | Oct 2024 | AI code completion |
-| 2025.1 | Meerkat | Prévu 2025 | Gradle 9.0, Performance |
-
-**Recommandation 2025** : Installer la dernière version stable (2024.2+)
-
-### 2. Le SDK Android
-
-#### Qu'est-ce que le SDK ?
-
-Le **Software Development Kit (SDK)** Android est une collection de :
-
-- **Bibliothèques** : APIs Android pour accéder aux fonctionnalités système
-- **Outils** : Compilateurs, débogueurs, analyseurs
-- **Émulateurs** : Environnements virtuels de test
-- **Documentation** : Références et guides
-
-#### Composants du SDK
-
-```
-📦 Android SDK
-├── 📁 platforms/          # Versions Android (API 24, 34, 35...)
-├── 📁 build-tools/        # Outils de compilation (aapt, dx, zipalign)
-├── 📁 platform-tools/     # ADB, fastboot
-├── 📁 emulator/           # Émulateur Android
-├── 📁 system-images/      # Images système pour AVD
-├── 📁 sources/            # Code source Android
-└── 📁 extras/             # Google Play Services, Support libs
-```
-
-#### SDK Manager
-
-Le **SDK Manager** permet de :
-- Télécharger des versions Android (APIs)
-- Mettre à jour les outils
-- Installer des images système pour émulateurs
-- Gérer l'espace disque
-
-### 3. Configuration Système Requise
-
-#### Configuration Minimale
+### Configuration Minimale
 
 | Composant | Minimum | Recommandé |
 |-----------|---------|------------|
-| **OS** | Windows 10, macOS 10.14, Linux | Windows 11, macOS 12+ |
 | **RAM** | 8 GB | 16 GB |
-| **Disque** | 10 GB libre | 20 GB+ SSD |
-| **CPU** | x64 moderne | Multi-core récent |
-| **Résolution** | 1280x800 | 1920x1080+ |
-| **JDK** | JDK 17+ | Inclus avec Android Studio |
+| **Disque** | 10 GB libre | 20 GB (SSD) |
+| **Processeur** | Intel i5 / AMD Ryzen 5 | Intel i7 / Ryzen 7 |
+| **Résolution** | 1280x800 | 1920x1080 |
+| **OS** | Windows 10, macOS 10.14, Ubuntu 18.04 | Dernières versions |
 
-#### Accélération Matérielle
+### Logiciels requis
 
-Pour des émulateurs performants, installer :
+- **JDK 17+** (Java Development Kit)
+- **Connexion Internet** pour téléchargement (~3 GB)
+- **Accélération matérielle** : Intel HAXM (Windows/Mac) ou KVM (Linux)
 
-**Windows** :
-- Intel : HAXM (Hardware Accelerated Execution Manager)
-- AMD : Windows Hypervisor Platform (WHPX)
+## 📥 Installation d'Android Studio
 
-**macOS** :
-- Accélération native (Hypervisor Framework)
+### Étape 1 : Téléchargement
 
-**Linux** :
-- KVM (Kernel-based Virtual Machine)
+1. Accédez au site officiel : [developer.android.com/studio](https://developer.android.com/studio)
+2. Cliquez sur **"Download Android Studio"**
+3. Acceptez les termes et conditions
+4. Téléchargez la version correspondant à votre OS
 
-### 4. Installation Pas à Pas
+**Tailles approximatives** :
+- Windows : ~1.1 GB
+- macOS : ~1.0 GB
+- Linux : ~1.0 GB
 
-#### Étape 1 : Téléchargement
+### Étape 2 : Installation par OS
 
-1. Aller sur [developer.android.com/studio](https://developer.android.com/studio)
-2. Cliquer sur **Download Android Studio**
-3. Accepter les conditions
-4. Choisir la version pour votre OS
-5. Télécharger (~1 GB)
+#### 🪟 Windows
 
-#### Étape 2 : Installation
-
-**Windows** :
 ```powershell
-# Exécuter l'installeur
-android-studio-2024.2.1-windows.exe
-
-# Suivre l'assistant
-- Composants : Cocher tout
-- Dossier : C:\Program Files\Android\Android Studio
-- Menu démarrer : Oui
+# 1. Double-cliquer sur android-studio-2024.2.1.X-windows.exe
+# 2. Suivre l'assistant d'installation
+# 3. Installer Android SDK
+# 4. Installer Android Virtual Device
+# 5. Installer Intel HAXM (accélération émulateur)
 ```
 
-**macOS** :
-```bash
-# Ouvrir le DMG
-open android-studio-2024.2.1-mac.dmg
-
-# Glisser Android Studio vers Applications
-drag Android Studio.app to /Applications
-
-# Lancer
-open /Applications/Android\ Studio.app
+**Chemin d'installation par défaut** :
+```
+C:\Program Files\Android\Android Studio
 ```
 
-**Linux (Ubuntu/Debian)** :
-```bash
-# Extraire l'archive
-sudo tar -xvzf android-studio-2024.2.1-linux.tar.gz -C /opt/
+**SDK par défaut** :
+```
+C:\Users\[VotreNom]\AppData\Local\Android\Sdk
+```
 
-# Lancer
+#### 🍎 macOS
+
+```bash
+# 1. Ouvrir le fichier .dmg téléchargé
+# 2. Glisser Android Studio dans Applications
+# 3. Lancer Android Studio
+# 4. Suivre l'assistant de configuration
+```
+
+**Chemin d'installation** :
+```
+/Applications/Android Studio.app
+```
+
+**SDK par défaut** :
+```
+~/Library/Android/sdk
+```
+
+#### 🐧 Linux (Ubuntu/Debian)
+
+```bash
+# Méthode 1 : Snap (recommandé)
+sudo snap install android-studio --classic
+
+# Méthode 2 : Archive tar.gz
+cd ~/Downloads
+tar -xvzf android-studio-2024.2.1.X-linux.tar.gz
+sudo mv android-studio /opt/
 cd /opt/android-studio/bin
 ./studio.sh
-
-# Créer un lanceur (optionnel)
-sudo nano /usr/share/applications/android-studio.desktop
 ```
 
-#### Étape 3 : Premier Lancement
+**SDK par défaut** :
+```
+~/Android/Sdk
+```
 
-1. **Écran d'accueil** : Choisir "Do not import settings"
-2. **Setup Wizard** : Cliquer "Next"
-3. **Install Type** :
-   - ✅ **Standard** (recommandé) : Tout par défaut
-   - Custom : Contrôle avancé
-4. **UI Theme** : Choisir Darcula (sombre) ou Light
-5. **Verify Settings** : Vérifier l'espace disque (~8 GB)
-6. **Download Components** : Patience (~10-15 min)
+### Étape 3 : Premier Lancement
 
-#### Étape 4 : Configuration SDK Manager
+Lors du premier lancement, Android Studio lance un **assistant de configuration** :
 
-**Ouvrir SDK Manager** :
-- Menu : `Tools > SDK Manager`
-- Ou icône 🔧 dans la toolbar
+1. **Import Settings** : Choisir "Do not import settings"
+2. **Data Sharing** : Accepter ou refuser selon préférence
+3. **Install Type** : Sélectionner **"Standard"**
+4. **UI Theme** : Light ou Darcula (thème sombre)
+5. **Verify Settings** : Vérifier l'emplacement du SDK
+6. **Download Components** : Patientez (~2 GB à télécharger)
 
-**SDK Platforms (onglet)** :
-Cocher :
-- ✅ Android 15.0 (API 35) - Dernière version
-- ✅ Android 14.0 (API 34)
-- ✅ Android 7.0 (API 24) - MinSDK recommandé
-- ✅ Show Package Details : Cocher "Android SDK Platform" + "Sources for Android"
+## 🔧 Configuration du SDK Manager
 
-**SDK Tools (onglet)** :
-Vérifier que ces outils sont installés :
-- ✅ Android SDK Build-Tools (dernière version)
-- ✅ Android Emulator
-- ✅ Android SDK Platform-Tools
-- ✅ Google Play services
-- ✅ Intel x86 Emulator Accelerator (HAXM) - Windows/Mac Intel
+### Accéder au SDK Manager
 
-**Appliquer** : Cliquer "Apply" puis "OK"
+**Depuis l'écran d'accueil** :
+```
+Configure → SDK Manager
+```
 
-### 5. Création d'un Émulateur (AVD)
+**Depuis un projet ouvert** :
+```
+Tools → SDK Manager
+```
+ou raccourci : `Ctrl+Alt+S` (Windows/Linux), `Cmd+,` (Mac)
 
-#### Qu'est-ce qu'un AVD ?
+### SDK Platforms (Onglet 1)
 
-Un **Android Virtual Device (AVD)** est un émulateur qui simule un appareil Android réel.
+Cochez les versions Android nécessaires :
 
-#### Créer un AVD
+| Version | API | Pourquoi l'installer ? |
+|---------|-----|------------------------|
+| Android 15.0 (V) | 35 | 🟢 **Dernière version stable** |
+| Android 14.0 (U) | 34 | 🟢 **Version précédente** |
+| Android 13.0 (T) | 33 | 🟡 Encore répandue |
+| Android 12.0 (S) | 31 | 🟡 Compatibilité |
+| Android 7.0 (Nougat) | 24 | 🟢 **minSdk recommandé** |
 
-1. **Ouvrir AVD Manager** :
-   - Menu : `Tools > Device Manager`
-   - Ou icône 📱 dans la toolbar
+**Recommandation 2025** :
+- ✅ **API 35** (targetSdk)
+- ✅ **API 34** (test)
+- ✅ **API 24** (minSdk - 95% couverture)
 
-2. **Create Virtual Device** :
-   - Cliquer sur "Create Device"
+### SDK Tools (Onglet 2)
 
-3. **Choisir un appareil** :
-   - Category : Phone
-   - Appareil : **Pixel 8** (recommandé)
-   - Cliquer "Next"
+Cochez les outils essentiels :
 
-4. **Choisir une image système** :
-   - Release : **VanillaIceCream (API 35)**
-   - ABI : **x86_64** (plus rapide avec accélération)
-   - Télécharger si nécessaire
-   - Cliquer "Next"
+- ✅ **Android SDK Build-Tools** (dernière version)
+- ✅ **Android SDK Command-line Tools**
+- ✅ **Android Emulator**
+- ✅ **Android SDK Platform-Tools** (ADB, fastboot)
+- ✅ **Intel x86 Emulator Accelerator (HAXM)** (Windows/Mac)
+- ✅ **Google Play Services**
+- ⬜ **NDK** (optionnel, pour C/C++)
+- ⬜ **CMake** (optionnel, pour C/C++)
 
-5. **Configuration AVD** :
-   - AVD Name : `Pixel_8_API_35`
-   - Startup orientation : Portrait
-   - ✅ Enable Device Frame
-   - Graphics : **Hardware - GLES 2.0** (recommandé)
-   - RAM : 2048 MB (minimum)
-   - VM Heap : 512 MB
-   - Internal Storage : 2048 MB
-   - SD Card : 512 MB (optionnel)
-   - Cliquer "Finish"
-
-6. **Lancer l'émulateur** :
-   - Cliquer sur ▶️ (Play) dans la liste
-   - Patienter 30-60 secondes (premier lancement)
-
-#### Conseils AVD
-
-💡 **Astuce Snapshot** :
-- Activer "Quick Boot" pour démarrage rapide (~5 secondes)
-- Settings AVD > Advanced > Boot option : **Quick boot**
-
-💡 **Multi-AVD** :
-Créer plusieurs AVD pour tester :
-- Pixel 8 (API 35) - Dernière version
-- Pixel 6 (API 31) - Version populaire
-- Tablet (API 34) - Grands écrans
-- Pixel 4 (API 24) - MinSDK
-
-### 6. Android Debug Bridge (ADB)
-
-**ADB** est un outil en ligne de commande pour communiquer avec les appareils Android.
-
-#### Commandes ADB Essentielles
+### Validation de l'installation
 
 ```bash
-# Vérifier ADB installé
+# Vérifier la version d'ADB
 adb version
 
 # Lister les appareils connectés
 adb devices
 
-# Installer une app
-adb install chemin/vers/app.apk
+# Vérifier l'emplacement du SDK
+echo $ANDROID_HOME  # Linux/Mac
+echo %ANDROID_HOME% # Windows
+```
+
+## 📱 Création d'un Émulateur (AVD)
+
+### Pourquoi un émulateur ?
+
+- ✅ Tester sans appareil physique
+- ✅ Tester plusieurs versions Android
+- ✅ Tester différentes résolutions
+- ✅ Snapshots pour démarrage rapide
+- ⚠️ Performances inférieures à un vrai téléphone
+
+### Étapes de création
+
+#### 1. Ouvrir AVD Manager
+
+**Depuis l'écran d'accueil** :
+```
+Configure → AVD Manager
+```
+
+**Depuis un projet** :
+```
+Tools → Device Manager
+```
+ou icône 📱 dans la barre d'outils
+
+#### 2. Créer un nouveau Virtual Device
+
+Cliquer sur **"Create Virtual Device"**
+
+#### 3. Choisir un appareil
+
+**Recommandations** :
+
+| Appareil | Résolution | Cas d'usage |
+|----------|------------|-------------|
+| **Pixel 6** | 1080x2400 | 🟢 Développement standard |
+| Pixel 8 Pro | 1344x2992 | Test haute résolution |
+| Nexus 5 | 1080x1920 | Ancien format |
+| Pixel Tablet | 2560x1600 | Test tablette |
+
+#### 4. Télécharger une System Image
+
+Choisir une **image système** à télécharger :
+
+**Onglet Recommended** :
+- ✅ **API 35** (Android 15) - Google APIs
+- ✅ **API 34** (Android 14) - Google Play
+- ✅ **API 24** (Android 7.0) - Test compatibilité
+
+**Types d'images** :
+- **Google Play** : Inclut Play Store (testing production)
+- **Google APIs** : APIs Google sans Play Store
+- **AOSP** : Android pur sans services Google
+
+⚡ **Important** : Choisir architecture **x86_64** pour performances optimales
+
+#### 5. Configuration AVD
+
+**Nom** : Donner un nom explicite (ex: `Pixel6_API35_PlayStore`)
+
+**Paramètres avancés** :
+- **RAM** : 2048 MB (minimum) à 4096 MB
+- **VM Heap** : 512 MB
+- **Internal Storage** : 2048 MB
+- **SD Card** : 512 MB (optionnel)
+- **Graphics** : Hardware - GLES 2.0 (recommandé)
+- **Boot option** : Cold boot (ou Quick boot avec snapshot)
+
+#### 6. Lancer l'émulateur
+
+Cliquer sur ▶️ (Play) dans AVD Manager
+
+**Première exécution** : 1-2 minutes (cold boot)
+**Avec snapshot** : 10-20 secondes
+
+### Raccourcis clavier émulateur
+
+| Touche | Action |
+|--------|--------|
+| `Ctrl+M` | Menu |
+| `Ctrl+H` | Home |
+| `Ctrl+← / →` | Back / Rotation |
+| `Ctrl+F11/F12` | Rotation gauche/droite |
+| `F11` | Plein écran |
+
+## 🛠️ Outils de Développement
+
+### ADB (Android Debug Bridge)
+
+**Commandes essentielles** :
+
+```bash
+# Lister appareils connectés
+adb devices
+
+# Installer une APK
+adb install app.apk
 
 # Désinstaller une app
-adb uninstall com.example.monapp
+adb uninstall com.example.app
 
-# Voir les logs
+# Voir les logs en temps réel
 adb logcat
 
-# Copier fichier vers appareil
-adb push fichier.txt /sdcard/
+# Filtrer les logs
+adb logcat | grep "MainActivity"
 
-# Copier fichier depuis appareil
-adb pull /sdcard/fichier.txt .
-
-# Shell Android
-adb shell
-
-# Redémarrer appareil
-adb reboot
-
-# Tuer le serveur ADB
+# Redémarrer ADB server
 adb kill-server
 adb start-server
+
+# Accéder au shell Android
+adb shell
+
+# Copier fichier vers l'appareil
+adb push fichier.txt /sdcard/
+
+# Récupérer fichier depuis appareil
+adb pull /sdcard/fichier.txt
+
+# Prendre screenshot
+adb shell screencap /sdcard/screen.png
+adb pull /sdcard/screen.png
+
+# Enregistrer vidéo (max 180s)
+adb shell screenrecord /sdcard/demo.mp4
 ```
 
-#### Utilisation Pratique
+### Logcat (Logs système)
 
-**Déboguer sur appareil réel** :
-1. Activer "Options développeur" :
-   - Paramètres > À propos du téléphone
-   - Taper 7 fois sur "Numéro de build"
-2. Activer "Débogage USB" :
-   - Paramètres > Options développeur
-   - Activer "Débogage USB"
-3. Connecter USB
-4. Autoriser sur le téléphone
-5. Vérifier : `adb devices`
-
-### 7. Structure de l'Interface Android Studio
-
+**Dans Android Studio** :
 ```
-┌─────────────────────────────────────────────────┐
-│ Android Studio                         [_][□][X]│
-├─────────────────────────────────────────────────┤
-│ File Edit View Navigate Code...         🔍 ▶️  │ <- Menu & Toolbar
-├──────────┬──────────────────────────────────────┤
-│ Project  │  MainActivity.java                   │
-│ ├─ app   │  ┌──────────────────────────────┐   │
-│ │ ├─ java│  │ public class MainActivity    │   │
-│ │ ├─ res │  │ extends AppCompatActivity {  │   │ <- Éditeur
-│ │ │ ├─ layout  │                          │   │
-│ │ │ └─ values  │                          │   │
-│ │ └─ manifests │                          │   │
-│ └─ Gradle│  └──────────────────────────────┘   │
-├──────────┴──────────────────────────────────────┤
-│ 🔨 Build   ⚠️ Problems   📋 Logcat   💻 Terminal│ <- Panneaux bas
-└─────────────────────────────────────────────────┘
+View → Tool Windows → Logcat
 ```
 
-#### Panneaux Importants
+**Niveaux de logs** :
+- 🟣 **Verbose** : Tout (très verbeux)
+- 🔵 **Debug** : Informations de débogage
+- 🟢 **Info** : Messages informatifs
+- 🟡 **Warning** : Avertissements
+- 🔴 **Error** : Erreurs
+- ⚫ **Assert** : Erreurs critiques
 
-- **Project** (gauche) : Arborescence des fichiers
-- **Editor** (centre) : Code Java/Kotlin/XML
-- **Build** (bas) : Résultats de compilation
-- **Logcat** (bas) : Logs en temps réel
-- **Terminal** (bas) : Ligne de commande
-
-## 🛠️ Outils Complémentaires
+**Filtrer les logs** :
+```java
+// Dans votre code
+Log.v("TAG", "Message verbose");
+Log.d("TAG", "Message debug");
+Log.i("TAG", "Message info");
+Log.w("TAG", "Message warning");
+Log.e("TAG", "Message erreur");
+```
 
 ### Gradle
 
-**Gradle** est le système de build d'Android.
-
-- Compile le code Java/Kotlin
-- Gère les dépendances
-- Génère l'APK/AAB
-- Configure les variantes (debug/release)
-
-**Fichiers Gradle** :
-- `settings.gradle.kts` : Configuration projet
-- `build.gradle.kts` (Project) : Dépôts, plugins
-- `build.gradle.kts` (Module: app) : Configuration app
-
-### Jetpack
-
-**Android Jetpack** : Collection de bibliothèques modernes.
-
-- **Architecture** : ViewModel, LiveData, Room
-- **UI** : Compose, Navigation, Paging
-- **Foundation** : AppCompat, KTX
-- **Behavior** : WorkManager, Notifications
-
-## 📊 Checklist Installation
-
-- [ ] Android Studio installé et lancé
-- [ ] SDK Manager configuré (API 24, 34, 35)
-- [ ] Émulateur créé (Pixel 8 API 35)
-- [ ] Émulateur lancé avec succès
-- [ ] ADB fonctionnel (`adb version`)
-- [ ] Interface Android Studio familière
-- [ ] Projet test créé (Module 3)
-
-## ⚠️ Problèmes Courants
-
-### Émulateur ne démarre pas
-
-**Cause** : Accélération matérielle non activée
-
-**Solution Windows** :
-```powershell
-# Vérifier virtualisation BIOS
-systeminfo | findstr "Hyper-V"
-
-# Installer HAXM
-# SDK Manager > SDK Tools > Intel x86 Emulator Accelerator
+**Synchroniser le projet** :
 ```
+File → Sync Project with Gradle Files
+```
+ou icône 🐘 dans la barre d'outils
 
-**Solution Linux** :
+**Nettoyer le build** :
 ```bash
-# Installer KVM
-sudo apt install qemu-kvm libvirt-daemon-system
-sudo usermod -aG kvm $USER
+./gradlew clean
 ```
 
-### Gradle Sync Failed
+**Compiler l'app** :
+```bash
+./gradlew assembleDebug
+```
 
-**Cause** : Connexion internet, proxy, versions incompatibles
+## 🔥 Accélération Matérielle
 
-**Solutions** :
-1. File > Invalidate Caches > Invalidate and Restart
-2. Vérifier `gradle.properties` (proxy)
-3. Mettre à jour Gradle : `./gradlew wrapper --gradle-version 8.5`
+### Vérifier la virtualisation
 
-### SDK Not Found
+#### Windows
 
-**Cause** : Chemin SDK incorrect
+```powershell
+# Vérifier dans le Gestionnaire des tâches
+# Onglet "Performances" → CPU → Virtualisation : Activée
+
+# Ou avec PowerShell
+systeminfo | findstr /i "Virtualization"
+```
+
+**Activer dans le BIOS** :
+- Redémarrer → F2/F10/Del (selon fabricant)
+- Chercher "Intel VT-x" ou "AMD-V"
+- Activer et sauvegarder
+
+#### macOS
+
+La virtualisation est activée par défaut sur Mac (Apple Silicon ou Intel).
+
+#### Linux
+
+```bash
+# Vérifier KVM
+egrep -c '(vmx|svm)' /proc/cpuinfo
+# Si > 0 : virtualisation supportée
+
+# Installer KVM
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+
+# Ajouter utilisateur au groupe
+sudo usermod -aG kvm $USER
+sudo usermod -aG libvirt $USER
+
+# Redémarrer la session
+```
+
+## ❌ Problèmes Fréquents et Solutions
+
+### Problème 1 : "SDK location not found"
 
 **Solution** :
-1. File > Project Structure
-2. SDK Location > Android SDK location
-3. Définir : `/Users/nom/Library/Android/sdk` (macOS)
-4. Ou : `C:\Users\nom\AppData\Local\Android\Sdk` (Windows)
+1. File → Project Structure → SDK Location
+2. Définir manuellement le chemin du SDK
+3. Exemple Windows : `C:\Users\[Nom]\AppData\Local\Android\Sdk`
 
-## 📝 Exercices Pratiques
+### Problème 2 : Émulateur très lent
 
-[Accéder aux exercices](./exercices.md)
+**Solutions** :
+- ✅ Activer HAXM/KVM (voir section accélération)
+- ✅ Utiliser image x86_64 (pas ARM)
+- ✅ Allouer plus de RAM (4 GB)
+- ✅ Choisir Graphics: Hardware - GLES 2.0
+- ✅ Fermer autres applications
+
+### Problème 3 : "ADB not found"
+
+**Solution** :
+```bash
+# Ajouter platform-tools au PATH
+
+# Windows (PowerShell admin)
+[System.Environment]::SetEnvironmentVariable('Path', $env:Path + ';C:\Users\[Nom]\AppData\Local\Android\Sdk\platform-tools', 'User')
+
+# Linux/Mac (~/.bashrc ou ~/.zshrc)
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+### Problème 4 : Gradle sync failed
+
+**Solutions** :
+1. File → Invalidate Caches / Restart
+2. Vérifier connexion Internet
+3. Supprimer `.gradle` dans le projet
+4. Build → Clean Project → Rebuild Project
+
+### Problème 5 : Émulateur ne démarre pas
+
+**Solutions** :
+- Vérifier virtualisation activée
+- Désactiver Hyper-V (Windows) : `bcdedit /set hypervisorlaunchtype off`
+- Recréer l'AVD avec moins de RAM
+- Choisir Cold Boot au lieu de Quick Boot
+
+## ✅ Checklist de Validation
+
+Avant de passer au module suivant, vérifiez :
+
+- [ ] Android Studio installé et fonctionnel
+- [ ] SDK API 35, 34, 24 téléchargés
+- [ ] SDK Build-Tools et Platform-Tools installés
+- [ ] Au moins 1 AVD créé et fonctionnel
+- [ ] ADB fonctionne en ligne de commande
+- [ ] Accélération matérielle activée
+- [ ] Premier lancement émulateur réussi
+
+## 📚 Exercices Pratiques
+
+Voir le fichier [exercices.md](./exercices.md) pour pratiquer.
+
+## 🔗 Ressources
+
+- [Documentation Android Studio](https://developer.android.com/studio/intro)
+- [SDK Manager](https://developer.android.com/studio/intro/update)
+- [AVD Manager](https://developer.android.com/studio/run/managing-avds)
+- [ADB Documentation](https://developer.android.com/studio/command-line/adb)
 
 ## ➡️ Module suivant
 
-[Module 3 : Création Premier Projet](../03-creation-premier-projet/README.md)
+[Module 3 : Création du Premier Projet](../03-creation-premier-projet/README.md)
 
 ---
 
