@@ -1,268 +1,278 @@
 # Module 10 : Projets de synthèse
 
-## 🎯 Objectifs du module
+## 🎯 Objectifs
 
-Ce module propose des projets complets pour mettre en pratique tous les concepts vus dans le cours : [file:2]
-
-- Activities, Fragments, Navigation
-- RecyclerView et Adapters
-- Room Database (CRUD)
-- Material Design
-- Intents et communication entre écrans
+Ce module regroupe des projets complets permettant de mobiliser l'ensemble des compétences acquises durant le cours.
 
 ---
 
-## Projet 1 : Application de gestion de tâches (To-Do App)
+## Projet 1 : Application de gestion de contacts
 
-### Fonctionnalités
+### Description
 
-**Écran principal :**
-- Liste des tâches (RecyclerView + CardView)
-- Affichage : titre, description, date, statut (complétée ou non)
-- FAB pour ajouter une nouvelle tâche
-- Possibilité de filtrer (toutes, en cours, terminées)
+Créer une application complète de gestion de contacts avec :
 
-**Écran ajout/modification :**
-- Champs : titre, description, date (DatePicker)
-- Boutons : Enregistrer, Annuler
+- Liste de contacts (RecyclerView).
+- Ajout/modification/suppression de contacts.
+- Stockage local avec Room Database.
+- Interface Material Design.
+- Mode sombre.
 
-**Base de données :**
-- Entity Task (id, title, description, date, completed)
-- DAO avec CRUD complet
-- Room Database
+### Fonctionnalités attendues
 
-**Interactions :**
-- Clic sur tâche → écran de modification
-- Clic long → suppression avec confirmation (Dialog)
-- Checkbox dans la liste pour marquer comme terminée
-- Snackbar après ajout/suppression
+1. **Écran principal** :
+   - RecyclerView affichant tous les contacts.
+   - FAB pour ajouter un contact.
+   - Recherche par nom.
+   - Menu pour trier (A-Z, récents).
 
-### Architecture technique
+2. **Écran ajout/modification** :
+   - Champs : nom, prénom, téléphone, email, photo.
+   - Validation des champs.
+   - Bouton "Enregistrer".
 
-```
-MainActivity (RecyclerView)
-  ↓
-TaskAdapter
-  ↓
-AppDatabase (Room)
-  ↓
-TaskDao → Task Entity
-```
+3. **Écran détail** :
+   - Affichage complet du contact.
+   - Boutons : appeler, envoyer SMS, modifier, supprimer.
 
-### Critères d'évaluation (/20)
+4. **Base de données** :
+   - Entity Contact avec Room.
+   - CRUD complet.
+
+### Spécifications techniques
+
+- Architecture : Activity + Fragments + RecyclerView + Room.
+- Minimum SDK : 24.
+- Navigation Component.
+- Material Design 3.
+
+### Critères d'évaluation (/30)
 
 | Critère | Points |
 |---------|--------|
-| Room Database correctement implémentée | 4 |
-| CRUD fonctionnel (Create, Read, Update, Delete) | 5 |
-| RecyclerView avec CardView | 3 |
-| Navigation entre écrans | 3 |
-| Material Design appliqué | 2 |
-| Gestion des clics et interactions | 2 |
-| Code propre et commenté | 1 |
+| Base de données Room fonctionnelle | 6 |
+| CRUD complet | 6 |
+| RecyclerView avec adapter | 4 |
+| Navigation entre écrans | 4 |
+| Interface Material Design | 4 |
+| Validation des champs | 3 |
+| Gestion des erreurs | 3 |
 
 ---
 
-## Projet 2 : Application de contacts
+## Projet 2 : Application de to-do list avancée
 
-### Fonctionnalités
+### Description
 
-**Écran principal :**
-- Liste des contacts (nom, téléphone, photo)
-- Barre de recherche pour filtrer
-- FAB pour ajouter un contact
+Application de gestion de tâches avec catégories, priorités et rappels.
 
-**Écran détail :**
-- Affichage complet du contact
-- Boutons : Appeler (Intent implicite), SMS, Email
-- Bouton Modifier
+### Fonctionnalités attendues
 
-**Écran ajout/modification :**
-- Champs : nom, prénom, téléphone, email, adresse
-- Photo (optionnel)
-- Validation des champs
+1. **Écran principal** :
+   - RecyclerView avec tâches groupées par catégorie.
+   - Filtres : toutes, actives, terminées.
+   - Recherche.
 
-**Base de données :**
-- Entity Contact (id, firstName, lastName, phone, email, address)
+2. **Ajout de tâche** :
+   - Titre, description, date limite, priorité.
+   - Catégorie (travail, personnel, études).
+   - CheckBox "Rappel".
 
-**Fonctionnalités avancées :**
-- Suppression avec Swipe ou clic long
-- Tri alphabétique
-- Export de la liste (Intent SEND)
+3. **Écran détail** :
+   - Affichage complet.
+   - Modifier statut (terminée/active).
+   - Supprimer.
 
-### Critères d'évaluation (/20)
+4. **Statistiques** :
+   - Fragment affichant : nombre total, terminées, en cours.
+   - Graphique par catégorie (optionnel).
+
+### Spécifications techniques
+
+- Room Database avec 2 tables (Task, Category).
+- Bottom Navigation (Tâches, Statistiques, Profil).
+- Notifications (rappels).
+
+### Critères d'évaluation (/30)
 
 | Critère | Points |
 |---------|--------|
-| Room Database et CRUD | 4 |
-| RecyclerView avec recherche | 3 |
-| Écran détail avec Intents implicites | 4 |
-| Formulaire de saisie validé | 3 |
-| Navigation fluide | 2 |
-| Material Design | 2 |
-| Fonctionnalités bonus (swipe, tri) | 2 |
+| Base de données (2 tables) | 6 |
+| CRUD complet | 5 |
+| Bottom Navigation | 4 |
+| Filtres et recherche | 5 |
+| Notifications | 5 |
+| Interface soignée | 5 |
 
 ---
 
-## Projet 3 : Application de notes (Note App)
+## Projet 3 : Application de gestion de dépenses
 
-### Fonctionnalités
+### Description
 
-**Écran principal avec Navigation :**
-- Bottom Navigation : Toutes, Favoris, Archivées
-- Fragment pour chaque catégorie
-- RecyclerView avec CardView
-- Menu avec option de recherche
+Suivi des dépenses personnelles avec catégories et statistiques.
 
-**Écran note :**
-- Titre et contenu (EditText multiligne)
-- Date de création/modification automatique
-- Bouton favori (étoile)
-- Menu : Archiver, Supprimer, Partager
+### Fonctionnalités attendues
 
-**Base de données :**
-- Entity Note (id, title, content, date, isFavorite, isArchived)
+1. **Écran principal** :
+   - RecyclerView des dépenses récentes.
+   - Solde total en haut.
+   - FAB pour ajouter une dépense.
 
-**Fonctionnalités avancées :**
-- Recherche dans les notes
-- Catégories/tags
-- Dark Mode
+2. **Ajout de dépense** :
+   - Montant, catégorie, date, note.
+   - Photo du reçu (optionnel).
 
-### Critères d'évaluation (/20)
+3. **Écran statistiques** :
+   - Total par mois.
+   - Répartition par catégorie.
+   - Graphique (optionnel).
+
+4. **Catégories** :
+   - Alimentation, transport, loisirs, santé, autre.
+   - Possibilité d'ajouter des catégories personnalisées.
+
+### Spécifications techniques
+
+- Room avec tables Expense et Category.
+- Fragments avec Navigation Component.
+- Material Design (CardView, Chips).
+
+### Critères d'évaluation (/30)
 
 | Critère | Points |
 |---------|--------|
-| Fragments et Bottom Navigation | 4 |
-| Room Database avec catégories | 4 |
-| Recherche fonctionnelle | 3 |
-| Partage de notes (Intent) | 2 |
-| Interface Material Design | 3 |
-| Dark Mode | 2 |
-| Code structuré | 2 |
+| Base de données | 6 |
+| CRUD | 5 |
+| Calculs et statistiques | 6 |
+| Interface Material | 5 |
+| Gestion des catégories | 4 |
+| Code propre et commenté | 4 |
 
 ---
 
-## Projet 4 : Application e-commerce simplifiée
+## Projet 4 : Application de recettes de cuisine
 
-### Fonctionnalités
+### Description
 
-**Architecture 3 écrans :**
+Catalogue de recettes avec recherche et favoris.
 
-1. **Liste produits :**
-   - RecyclerView avec image, nom, prix
-   - Bouton "Ajouter au panier"
+### Fonctionnalités attendues
 
-2. **Détail produit :**
-   - Image, description complète, prix
-   - Quantité (+ / -)
-   - Bouton "Ajouter au panier"
+1. **Écran principal** :
+   - RecyclerView en grille.
+   - Chaque carte : photo, titre, temps de préparation.
+   - Recherche par nom.
 
-3. **Panier :**
-   - Liste des produits ajoutés
-   - Quantité modifiable
-   - Total calculé
-   - Bouton "Valider la commande"
+2. **Écran détail** :
+   - Photo, titre, ingrédients, étapes.
+   - Bouton favori (étoile).
+   - Partage de la recette.
 
-**Base de données :**
-- Entity Product (id, name, description, price, imageRes)
-- Entity CartItem (id, productId, quantity)
+3. **Écran favoris** :
+   - Liste des recettes favorites.
 
-**Fonctionnalités :**
-- Badge sur icône panier (nombre d'articles)
-- Snackbar lors de l'ajout
-- Dialog de confirmation de commande
+4. **Ajout de recette** :
+   - Formulaire complet.
+   - Upload photo depuis galerie.
 
-### Critères d'évaluation (/20)
+### Spécifications techniques
+
+- Room Database.
+- Bottom Navigation (Recettes, Favoris, Ajouter).
+- Intent implicite pour partage.
+
+### Critères d'évaluation (/30)
 
 | Critère | Points |
 |---------|--------|
-| Room avec 2 entities liées | 5 |
-| Navigation produits → détail → panier | 4 |
-| Calcul du total | 2 |
-| RecyclerView avec images | 3 |
-| Gestion des quantités | 3 |
-| Material Design | 2 |
-| Interactions fluides | 1 |
+| Base de données | 5 |
+| RecyclerView avec images | 6 |
+| Navigation | 4 |
+| Système de favoris | 5 |
+| Partage de recette | 4 |
+| Interface attrayante | 6 |
 
 ---
 
-## Projet 5 : Application météo (avec API fictive)
+## Projet 5 : Application de gestion d'événements
 
-### Fonctionnalités
+### Description
 
-**Écran principal :**
-- Ville sélectionnée
-- Température, description, icône
-- Prévisions sur 5 jours (RecyclerView horizontale)
+Créer et gérer des événements (rendez-vous, réunions, anniversaires).
 
-**Écran recherche ville :**
-- Champ de recherche
-- Liste de villes favorites (Room)
+### Fonctionnalités attendues
 
-**Simulation API :**
-- Créer une classe WeatherService qui retourne des données fictives
-- Utiliser des données pré-remplies
+1. **Écran principal** :
+   - CalendarView (optionnel) ou liste par date.
+   - Événements à venir.
 
-**Fonctionnalités :**
-- Sauvegarder villes favorites
-- Rafraîchir les données (SwipeRefreshLayout)
-- Partager la météo
+2. **Ajout d'événement** :
+   - Titre, date, heure, lieu, description.
+   - Rappel (notification).
 
-### Critères d'évaluation (/20)
+3. **Écran détail** :
+   - Informations complètes.
+   - Modifier/supprimer.
+
+4. **Notifications** :
+   - Rappel 1h avant l'événement.
+
+### Spécifications techniques
+
+- Room Database.
+- AlarmManager ou WorkManager pour notifications.
+- Material Design.
+
+### Critères d'évaluation (/30)
 
 | Critère | Points |
 |---------|--------|
-| Room pour villes favorites | 3 |
-| RecyclerView prévisions | 3 |
-| Service de simulation | 4 |
-| Recherche de ville | 3 |
-| SwipeRefreshLayout | 2 |
-| Partage (Intent) | 2 |
-| Interface Material | 3 |
+| Base de données | 5 |
+| CRUD | 5 |
+| Gestion des dates | 5 |
+| Notifications fonctionnelles | 7 |
+| Interface claire | 5 |
+| Code structuré | 3 |
 
 ---
 
-## Conseils de réalisation
+## Conseils généraux pour les projets
 
-### Phase 1 : Planification (1 heure)
-- Dessiner les écrans (wireframes)
-- Lister les entités Room
-- Définir la navigation
+### Architecture recommandée
 
-### Phase 2 : Développement (8-10 heures)
-- Créer la base Room (Entity, DAO, Database)
-- Créer les layouts XML
-- Développer les Activities/Fragments
-- Implémenter les RecyclerView
-- Gérer la navigation
-- Ajouter Material Design
+- Séparer logique métier et interface.
+- Utiliser des packages : `models`, `database`, `adapters`, `activities`, `fragments`.
 
-### Phase 3 : Tests et finitions (2 heures)
-- Tester toutes les fonctionnalités
-- Gérer les cas d'erreur
-- Améliorer l'UI
-- Documenter le code
+### Gestion des erreurs
 
----
+- Valider les entrées utilisateur.
+- Gérer les cas limites (liste vide, base de données vide).
+- Messages d'erreur clairs.
 
-## Grille d'évaluation générique
+### Interface utilisateur
 
-| Aspect | Excellent (5) | Bien (3-4) | Moyen (2) | Insuffisant (0-1) |
-|--------|---------------|------------|-----------|-------------------|
-| **Architecture** | Code structuré, patterns respectés | Quelques améliorations possibles | Structure confuse | Pas de structure |
-| **Fonctionnalités** | Toutes implémentées et testées | Principales fonctionnent | Incomplètes | Ne fonctionne pas |
-| **UI/UX** | Material Design, fluide, cohérent | Globalement correct | Basique | Brouillon |
-| **Base de données** | CRUD complet, relations gérées | CRUD fonctionnel | Incomplet | Non fonctionnel |
-| **Code** | Propre, commenté, lisible | Acceptable | Peu lisible | Illisible |
+- Cohérence visuelle.
+- Feedback utilisateur (Toast, Snackbar, ProgressBar).
+- Accessibilité (content descriptions, tailles de texte).
+
+### Code propre
+
+- Noms de variables explicites.
+- Commentaires pour parties complexes.
+- Indentation correcte.
 
 ---
 
-## Ressources pour les projets
+## Modalités de rendu
 
-- **Icons** : <https://fonts.google.com/icons>
-- **Images** : <https://unsplash.com> (libres de droits)
-- **Mockups** : <https://www.figma.com>
-- **Documentation** : <https://developer.android.com>
+1. **Code source** : projet Android Studio complet (zip).
+2. **APK** : fichier APK installable.
+3. **Documentation** :
+   - README avec captures d'écran.
+   - Guide d'utilisation.
+   - Difficultés rencontrées.
+4. **Présentation** : démonstration orale (5-10 min).
 
 ---
 
