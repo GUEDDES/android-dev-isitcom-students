@@ -1,4 +1,4 @@
-# 🎓 Cours Android - ISITCOM 2025/2026
+# 🎯 Cours Android - ISITCOM 2025/2026
 
 > Support de cours complet pour le développement d'applications Android natives en Java
 
@@ -64,7 +64,7 @@ Tous les TD sont disponibles dans le dossier [`TD-global/`](TD-global/)
 3. **Configuration initiale** : choisir "Standard" lors du premier lancement
 4. **SDK** : l'assistant téléchargera automatiquement les composants nécessaires
 
-Guide complet : [Module 2 - SDK et outils](02-sdk-et-outils/README.md)
+📖 Guide complet : [Module 2 - SDK et outils](02-sdk-et-outils/README.md)
 
 ### Premier projet
 
@@ -78,7 +78,7 @@ Language: Java
 Minimum SDK: API 24 (Android 7.0)
 ```
 
-Tutoriel complet : [Module 3 - Premier projet](03-creation-premier-projet/README.md)
+📖 Tutoriel complet : [Module 3 - Premier projet](03-creation-premier-projet/README.md)
 
 ---
 
@@ -108,7 +108,15 @@ android-dev-isitcom-students/
 │   ├── ...
 │   └── td10-publication/
 │
+├── BONNES_PRATIQUES.md           # Conventions, architecture, performance
+├── CHECKLIST.md                  # Guide développement complet
 ├── CONTRIBUTING.md               # Guide de contribution
+├── EVALUATION.md                 # Critères d'évaluation
+├── FAQ.md                        # Questions fréquentes (50+ Q&R)
+├── GLOSSAIRE.md                  # Termes techniques A-Z
+├── INDEX.md                      # Navigation rapide
+├── QUICK_START.md                # Guide express
+├── RACCOURCIS.md                 # Shortcuts Android Studio
 ├── RESSOURCES.md                 # Liens utiles externes
 ├── LICENSE                       # Licence MIT
 └── README.md                     # Ce fichier
@@ -205,7 +213,31 @@ Choix entre 3 projets :
 2. Application de recettes
 3. Suivi de lecture
 
-Grille d'évaluation détaillée : [TD10](TD-global/td10-publication/README.md)
+📖 Grille d'évaluation détaillée : [EVALUATION.md](EVALUATION.md)
+
+---
+
+## 📚 Ressources du cours
+
+### Guides essentiels
+
+| Guide | Description | Lien |
+|-------|-------------| ---- |
+| **Quick Start** | Démarrage express en 15 min | [QUICK_START.md](QUICK_START.md) |
+| **Glossaire** | Termes techniques A-Z | [GLOSSAIRE.md](GLOSSAIRE.md) |
+| **FAQ** | 50+ questions/réponses | [FAQ.md](FAQ.md) |
+| **Raccourcis** | Shortcuts Android Studio | [RACCOURCIS.md](RACCOURCIS.md) |
+| **Checklist** | Guide développement complet | [CHECKLIST.md](CHECKLIST.md) |
+| **Bonnes pratiques** | Conventions et optimisations | [BONNES_PRATIQUES.md](BONNES_PRATIQUES.md) |
+| **Ressources** | Liens externes utiles | [RESSOURCES.md](RESSOURCES.md) |
+| **Index** | Navigation rapide | [INDEX.md](INDEX.md) |
+
+### Navigation rapide
+
+📘 [Voir tous les modules](INDEX.md#modules-théoriques)  
+📝 [Voir tous les TD](TD-global/README.md)  
+🤔 [Consulter la FAQ](FAQ.md)  
+✅ [Utiliser la checklist](CHECKLIST.md)  
 
 ---
 
@@ -229,26 +261,28 @@ Les contributions sont les bienvenues ! Consultez [CONTRIBUTING.md](CONTRIBUTING
 - [Android Codelabs](https://codelabs.developers.google.com/?cat=Android)
 - [Stack Overflow - Android](https://stackoverflow.com/questions/tagged/android)
 
-Liste complète : [RESSOURCES.md](RESSOURCES.md)
+📖 Liste complète : [RESSOURCES.md](RESSOURCES.md)
 
 ---
 
-## ❓ FAQ
+## ❓ FAQ express
 
 ### Android Studio est très lent, que faire ?
-- Augmenter la RAM allouée dans `Help > Edit Custom VM Options`
-- Fermer les projets inutiles
-- Désactiver les plugins non utilisés
+➡️ Augmenter la RAM dans `Help > Edit Custom VM Options` : `-Xmx4096m`
 
 ### Mon émulateur ne démarre pas
-- Vérifier que la virtualisation est activée dans le BIOS
-- Utiliser un appareil réel en USB
-- Essayer un AVD avec une API plus basse
+➡️ Vérifier virtualisation BIOS ou utiliser appareil réel USB
 
 ### "Cannot resolve symbol R"
-- Nettoyer le projet : `Build > Clean Project`
-- Rebuild : `Build > Rebuild Project`
-- Synchroniser Gradle : `File > Sync Project with Gradle Files`
+➡️ `Build > Clean Project` puis `Build > Rebuild Project`
+
+### Comment passer des données entre Activities ?
+➡️ Utiliser Intent.putExtra() et getIntent().getStringExtra()
+
+### Base de données Room : "Cannot access database on main thread"
+➡️ Exécuter opérations dans Thread ou Executor
+
+📖 [Voir toutes les questions](FAQ.md) (50+ Q&R)
 
 ---
 
@@ -266,6 +300,19 @@ Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
+## 🎓 Statistiques du cours
+
+- **10 modules** théoriques complets
+- **10 TD** avec énoncés détaillés
+- **30+ exercices** pratiques progressifs
+- **15+ mini-projets** de difficulté croissante
+- **3 projets finaux** au choix avec grilles d'évaluation
+- **100+ pages** de documentation
+- **50+ Q&R** dans la FAQ
+- **8 guides** complémentaires
+
+---
+
 <p align="center">
   <i>Bon apprentissage et bon code ! 🚀</i>
 </p>
@@ -273,3 +320,7 @@ Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails.
 <p align="center">
   <img src="https://developer.android.com/static/images/brand/Android_Robot.svg" width="100">
 </p>
+
+---
+
+👨‍🏫 **Cours Android** | ISITCOM 2025-2026
