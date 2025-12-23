@@ -1,411 +1,441 @@
-# FAQ - Questions Fréquentes
+# FAQ - Questions fréquentes
 
-## 👤 Général
+## 🎯 Introduction
 
-### Puis-je suivre ce cours si je suis débutant en Java ?
-
-Oui, mais des bases en Java sont recommandées. Si vous êtes débutant complet, commencez par :
-1. Variables, types, opérateurs
-2. Conditions (if/else, switch)
-3. Boucles (for, while)
-4. Méthodes
-5. Classes et objets
-
-**Ressources** : [Learn Java](https://www.learnjavaonline.org/)
-
-### Quel est le prérequis matériel ?
-
-**Minimum** :
-- Windows 10/11, macOS 10.14+, ou Linux
-- 8 GB RAM
-- 8 GB espace disque
-- Processeur Intel i5 ou équivalent
-
-**Recommandé** :
-- 16 GB RAM
-- SSD avec 20 GB libre
-- Processeur Intel i7 ou équivalent
-
-### Combien de temps prend le cours ?
-
-Le cours est conçu pour **14 semaines** :
-- 3h de cours/semaine
-- 2-4h de TD/semaine
-- Total : ~70 heures
+Ce document répond aux questions les plus fréquentes des étudiants.
 
 ---
 
 ## 🛠️ Installation et configuration
 
-### Android Studio est très lent, que faire ?
+### Q : Android Studio est trop lent, comment accélérer ?
 
-1. **Augmenter mémoire allouée** :
-   - Help → Edit Custom VM Options
-   - Modifier : `-Xmx4096m` (4 GB)
+**R :** Plusieurs solutions :
 
-2. **Désactiver plugins inutiles** :
-   - File → Settings → Plugins
-   - Désactiver ceux non utilisés
+1. **Augmenter la mémoire allouée**
+   - `Help > Edit Custom VM Options`
+   - Changer `-Xmx2048m` en `-Xmx4096m`
 
-3. **Activer Offline Mode** (si pas besoin de Gradle sync) :
-   - File → Settings → Build, Execution, Deployment → Gradle
+2. **Désactiver plugins inutiles**
+   - `File > Settings > Plugins`
+   - Décocher plugins non utilisés
+
+3. **Activer Offline Mode**
+   - `File > Settings > Build > Gradle`
    - Cocher "Offline work"
 
-4. **Vider cache** :
-   - File → Invalidate Caches → Invalidate and Restart
+4. **Utiliser un SSD** pour le projet
 
-### L'émulateur ne démarre pas
+### Q : "SDK not found" après installation ?
 
-**Vérifier virtualisation** :
+**R :** 
+1. `File > Project Structure > SDK Location`
+2. Vérifier le chemin du SDK
+3. Si vide, installer via `Tools > SDK Manager`
+4. Redémarrer Android Studio
 
-**Windows** :
-- Ouvrir Gestionnaire des tâches → Performance
-- Vérifier "Virtualisation : Activée"
-- Si désactivée : activer dans BIOS (Intel VT-x / AMD-V)
+### Q : L'émulateur ne démarre pas ?
 
-**macOS** : Virtualisation toujours active
-
-**Linux** :
-```bash
-grep -E 'vmx|svm' /proc/cpuinfo
-```
-
-**Alternative** : Utiliser un appareil physique en USB debugging
-
-### Erreur "SDK not found"
-
-File → Project Structure → SDK Location  
-Définir manuellement le chemin vers Android SDK
+**R :**
+- **Vérifier virtualisation activée** dans BIOS
+- **Windows** : Désactiver Hyper-V
+- **Alternative** : Utiliser appareil physique via USB
 
 ---
 
-## 💻 Erreurs fréquentes
+## 🐞 Débogage
 
-### "R cannot be resolved"
+### Q : "App keeps stopping" - Comment déboguer ?
 
-**Causes** :
-1. Erreur dans fichier XML (layout, colors, strings)
-2. Import incorrect : `import android.R;` (supprimer)
-3. Gradle sync pas terminé
+**R :**
+1. **Lire Logcat** : `Alt + 6`
+2. Chercher ligne en rouge avec l'erreur
+3. Identifier la classe et ligne du crash
+4. Erreurs courantes :
+   - `NullPointerException` : Variable null
+   - `NetworkOnMainThreadException` : Opération réseau sur UI thread
+   - `SQLiteException` : Problème base de données
 
-**Solutions** :
-1. Vérifier erreurs XML (red underlines)
-2. Build → Clean Project + Rebuild Project
-3. Supprimer ligne `import android.R;`
-4. Gradle sync
+### Q : Mon TextView ne s'affiche pas ?
 
-### "Unable to resolve dependency"
+**R :** Vérifier :
+- [ ] `android:visibility="visible"`
+- [ ] Couleur texte différente du fond
+- [ ] Contraintes ConstraintLayout correctes
+- [ ] `setText()` appelé dans le code
+- [ ] ID correct dans `findViewById()`
 
-**Cause** : Problème de connexion ou dépendance introuvable
+### Q : findViewById() retourne null ?
 
-**Solutions** :
-1. Vérifier connexion Internet
-2. File → Settings → Gradle → Décocher "Offline work"
-3. Essayer repository alternatif :
-   ```gradle
-   repositories {
-       google()
-       mavenCentral()
-       maven { url 'https://jitpack.io' }
-   }
-   ```
-
-### "App keeps stopping" sur l'émulateur
-
-**Cause** : Exception non gérée
-
-**Solution** :
-1. Ouvrir Logcat (View → Tool Windows → Logcat)
-2. Chercher ligne rouge avec "Exception"
-3. Lire le message d'erreur et stack trace
-4. Corriger l'erreur dans le code
-
-### NullPointerException
-
-**Cause** : Tentative d'utiliser un objet `null`
-
-**Exemple** :
-```java
-TextView text = findViewById(R.id.text);
-text.setText("Hello"); // Erreur si text == null
-```
-
-**Solution** :
-```java
-TextView text = findViewById(R.id.text);
-if (text != null) {
-    text.setText("Hello");
-}
-```
+**R :**
+- **Vérifier** que l'ID existe dans le layout actif
+- **Vérifier** `setContentView()` appelé avant `findViewById()`
+- **Clean & Rebuild** : `Build > Clean Project`
 
 ---
 
-## 📊 Layouts et UI
+## 📱 Interface utilisateur
 
-### Mon layout ne s'affiche pas correctement
+### Q : Comment centrer un élément dans ConstraintLayout ?
 
-1. **Preview vs Device** : Tester sur émulateur/device réel
-2. **ConstraintLayout** : Vérifier toutes contraintes définies
-3. **match_parent vs wrap_content** : Vérifier tailles
-4. **Orientation** : Tester portrait ET paysage
-
-### Comment centrer un élément ?
-
-**ConstraintLayout** :
+**R :**
 ```xml
-app:layout_constraintTop_toTopOf="parent"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
+<TextView
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 ```
 
-**LinearLayout** :
-```xml
-android:layout_gravity="center"
+### Q : Quelle différence entre dp et sp ?
+
+**R :**
+- **dp** : Dimensions (margins, paddings, largeurs...)
+- **sp** : Tailles de texte (respecte préférences utilisateur)
+
+### Q : RecyclerView vide ne s'affiche pas ?
+
+**R :**
+```java
+// Vérifier :
+recyclerView.setLayoutManager(new LinearLayoutManager(this)); // ✅
+recyclerView.setAdapter(adapter); // ✅
+adapter.notifyDataSetChanged(); // Après changement données
 ```
-
-### Les icônes ne s'affichent pas
-
-1. Vérifier chemin : `android:src="@drawable/ic_name"`
-2. Vérifier que fichier existe dans `res/drawable/`
-3. Utiliser VectorDrawable (SVG) plutôt que PNG
-4. Gradle sync
 
 ---
 
-## 💾 Room Database
+## 📦 Base de données Room
 
-### "Cannot access database on the main thread"
+### Q : "Cannot access database on the main thread" ?
 
-**Erreur** : Opération Room sur UI thread
+**R :** Room interdit opérations sur UI thread.
 
-**Solution** :
 ```java
-// Mauvais
-dao.insert(item);
+// ❌ MAUVAIS
+userDao.insert(user);
 
-// Bon
-new Thread(() -> dao.insert(item)).start();
+// ✅ BON
+new Thread(() -> {
+    userDao.insert(user);
+}).start();
 
-// Ou avec Executor
+// ✅ MIEUX
 Executors.newSingleThreadExecutor().execute(() -> {
-    dao.insert(item);
+    userDao.insert(user);
 });
 ```
 
-### Les données ne se sauvegardent pas
+### Q : Données ne s'affichent pas après insertion ?
 
-**Vérifications** :
-1. Méthode `insert()` appelée ?
-2. Opération sur thread secondaire ?
-3. Database singleton correctement implémenté ?
-4. @PrimaryKey défini ?
+**R :** Utiliser **LiveData** :
 
-### Comment voir la base de données ?
-
-**Méthode 1 : Database Inspector** (Android Studio Bumblebee+)
-- View → Tool Windows → App Inspection → Database Inspector
-
-**Méthode 2 : Export manuel**
-```bash
-adb exec-out run-as com.example.app cat /databases/app.db > app.db
-```
-Puis ouvrir avec [DB Browser for SQLite](https://sqlitebrowser.org/)
-
----
-
-## 🧵 Navigation et Fragments
-
-### Fragment s'affiche en double
-
-**Cause** : Transaction ajoutée plusieurs fois
-
-**Solution** :
 ```java
-if (savedInstanceState == null) {
-    getSupportFragmentManager().beginTransaction()
-        .replace(R.id.container, new HomeFragment())
-        .commit();
+// DAO
+@Query("SELECT * FROM users")
+LiveData<List<User>> getAllUsers();
+
+// Activity
+viewModel.getAllUsers().observe(this, users -> {
+    adapter.setUsers(users);
+});
+```
+
+### Q : Comment modifier le schéma de la base ?
+
+**R :**
+1. Modifier Entity
+2. **Incrémenter version** dans `@Database`
+3. Désinstaller app (ou implémenter Migration)
+
+```java
+@Database(entities = {User.class}, version = 2) // ✅ Incrémenter
+public abstract class AppDatabase extends RoomDatabase {
+    // ...
 }
 ```
 
-### Navigation ne fonctionne pas
-
-**Vérifications** :
-1. `nav_graph.xml` correctement configuré
-2. `NavHostFragment` dans layout Activity
-3. ID des fragments correspondent
-4. Dépendances Navigation ajoutées
-
 ---
 
-## 🔌 Intents et Activities
+## 🧩 Navigation
 
-### Intent ne passe pas de données
+### Q : Passer des données entre Activities ?
 
-**Vérifier** :
+**R :**
+
+**Activity 1 :**
 ```java
-// Activity 1
-Intent intent = new Intent(this, SecondActivity.class);
-intent.putExtra("key", "value");
+Intent intent = new Intent(this, DetailActivity.class);
+intent.putExtra("USER_ID", userId);
+intent.putExtra("USER_NAME", userName);
 startActivity(intent);
-
-// Activity 2 - Bonne clé
-String value = getIntent().getStringExtra("key");
 ```
 
-⚠️ Les clés doivent correspondre exactement !
-
-### Activity redémarre lors de rotation écran
-
-**Normal** : Comportement par défaut Android
-
-**Solutions** :
-
-1. **Sauvegarder état** (recommandé) :
+**Activity 2 :**
 ```java
-@Override
-protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putString("key", value);
-}
+int userId = getIntent().getIntExtra("USER_ID", -1);
+String userName = getIntent().getStringExtra("USER_NAME");
+```
 
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    if (savedInstanceState != null) {
-        value = savedInstanceState.getString("key");
+### Q : Passer objet complexe entre Activities ?
+
+**R :** Implémenter `Parcelable` ou passer uniquement l'ID.
+
+```java
+// ✅ Recommandé - Passer ID
+intent.putExtra("USER_ID", user.getId());
+
+// Dans Activity 2, récupérer depuis Room
+int userId = getIntent().getIntExtra("USER_ID", -1);
+viewModel.getUserById(userId).observe(this, user -> {
+    // Utiliser user
+});
+```
+
+### Q : Fragment ne s'affiche pas ?
+
+**R :** Vérifier :
+
+```java
+// Navigation Component correctement configuré
+// NavHostFragment défini dans XML
+<fragment
+    android:id="@+id/nav_host_fragment"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    app:navGraph="@navigation/nav_graph" />
+
+// Navigation correcte
+NavController navController = Navigation.findNavController(view);
+navController.navigate(R.id.detailFragment);
+```
+
+---
+
+## ⚡ Performance
+
+### Q : App lente, comment optimiser ?
+
+**R :**
+
+1. **Profiler** : `View > Tool Windows > Profiler`
+2. **Identifier** goulots d'étranglement
+3. **Solutions courantes** :
+   - Charger images avec Glide
+   - Utiliser RecyclerView au lieu ListView
+   - Pas d'opérations lourdes sur UI thread
+   - Limiter requêtes réseau
+
+### Q : OutOfMemoryError avec images ?
+
+**R :** Utiliser **Glide** :
+
+```java
+Glide.with(context)
+    .load(imageUrl)
+    .override(300, 300) // Redimensionner
+    .into(imageView);
+```
+
+---
+
+## 🔧 Gradle et dépendances
+
+### Q : "Failed to resolve" lors du sync Gradle ?
+
+**R :**
+
+1. **Vérifier connexion internet**
+2. **Invalider cache** : `File > Invalidate Caches > Invalidate and Restart`
+3. **Vérifier version** de la dépendance existe
+4. **Ajouter repository** dans `settings.gradle` :
+
+```gradle
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
     }
 }
 ```
 
-2. **Verrouiller orientation** (déconseillé) :
-```xml
-<activity
-    android:name=".MainActivity"
-    android:screenOrientation="portrait" />
+### Q : Quelle version utiliser pour une dépendance ?
+
+**R :** Vérifier sur :
+- [Maven Central](https://search.maven.org/)
+- [Android Developers](https://developer.android.com/jetpack/androidx/versions)
+
+---
+
+## 🔒 Permissions
+
+### Q : Comment demander une permission à l'exécution ?
+
+**R :** Pour Android 6.0+ :
+
+```java
+if (ContextCompat.checkSelfPermission(this, 
+        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+    
+    ActivityCompat.requestPermissions(this,
+            new String[]{Manifest.permission.CAMERA},
+            REQUEST_CODE);
+} else {
+    // Permission déjà accordée
+    openCamera();
+}
+
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    if (requestCode == REQUEST_CODE) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openCamera();
+        }
+    }
+}
 ```
 
 ---
 
 ## 🎨 Material Design
 
-### Dark mode ne fonctionne pas
+### Q : Comment ajouter Material Design à mon projet ?
 
-**Vérifier** :
-1. `values-night/themes.xml` existe
-2. Thème hérite de `Theme.Material3.Dark`
-3. Couleurs adaptées définies
-4. Redémarrer app après changement
+**R :** 
 
-### Bouton Material ne s'affiche pas
-
-**Cause** : Thème non Material
-
-**Solution** :
-```xml
-<!-- themes.xml -->
-<style name="AppTheme" parent="Theme.Material3.Light">
-    <!-- ... -->
-</style>
-```
-
----
-
-## 🛡️ Débogage
-
-### Comment ajouter des logs ?
-
-```java
-import android.util.Log;
-
-private static final String TAG = "MainActivity";
-
-Log.d(TAG, "Debug message");
-Log.i(TAG, "Info message");
-Log.w(TAG, "Warning message");
-Log.e(TAG, "Error message");
-```
-
-Voir dans Logcat : Filtrer par TAG
-
-### Comment utiliser le débogueur ?
-
-1. Ajouter **breakpoint** : Clic gauche dans marge code
-2. Lancer en mode debug : 🐞 (Debug icon)
-3. Exécution s'arrête au breakpoint
-4. **Step Over** (F8) : Ligne suivante
-5. **Step Into** (F7) : Entrer dans méthode
-6. **Resume** (F9) : Continuer jusqu'au prochain breakpoint
-
----
-
-## 📚 Ressources complémentaires
-
-### Où trouver de l'aide ?
-
-1. **Documentation officielle** : [developer.android.com](https://developer.android.com/)
-2. **Stack Overflow** : [stackoverflow.com/questions/tagged/android](https://stackoverflow.com/questions/tagged/android)
-3. **Reddit** : [r/androiddev](https://www.reddit.com/r/androiddev/)
-4. **Discord Android Developers** : [discord.gg/android-dev](https://discord.gg/android-dev)
-
-### Tutoriels vidéo recommandés
-
-- [Coding in Flow](https://www.youtube.com/@codinginflow)
-- [Philipp Lackner](https://www.youtube.com/@PhilippLackner)
-- [Android Developers](https://www.youtube.com/@AndroidDevelopers)
-
-### Puis-je utiliser Kotlin au lieu de Java ?
-
-Oui ! Kotlin est recommandé par Google. La syntaxe est différente mais les concepts sont identiques.
-
-**Exemple comparaison** :
-
-```java
-// Java
-public class User {
-    private String name;
-    
-    public User(String name) {
-        this.name = name;
-    }
-    
-    public String getName() {
-        return name;
-    }
+**build.gradle (app)** :
+```gradle
+dependencies {
+    implementation 'com.google.android.material:material:1.11.0'
 }
 ```
 
-```kotlin
-// Kotlin
-data class User(val name: String)
+**themes.xml** :
+```xml
+<style name="AppTheme" parent="Theme.Material3.Light">
+    <!-- Couleurs -->
+</style>
+```
+
+### Q : FloatingActionButton ne s'affiche pas ?
+
+**R :** Vérifier contraintes :
+
+```xml
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_margin="16dp" />
 ```
 
 ---
 
-## 📞 Contact
+## 🌐 Réseau et API
 
-### Comment signaler une erreur dans le cours ?
+### Q : Comment appeler une API REST ?
 
-Voir [CONTRIBUTING.md](CONTRIBUTING.md)
+**R :** Utiliser **Retrofit** :
 
-### Puis-je contribuer au cours ?
+**1. build.gradle** :
+```gradle
+implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+```
 
-Oui ! Pull requests bienvenues. Voir [CONTRIBUTING.md](CONTRIBUTING.md)
+**2. Interface API** :
+```java
+public interface ApiService {
+    @GET("users")
+    Call<List<User>> getUsers();
+}
+```
+
+**3. Appel** :
+```java
+Retrofit retrofit = new Retrofit.Builder()
+    .baseUrl("https://api.example.com/")
+    .addConverterFactory(GsonConverterFactory.create())
+    .build();
+
+ApiService apiService = retrofit.create(ApiService.class);
+apiService.getUsers().enqueue(new Callback<List<User>>() {
+    @Override
+    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+        if (response.isSuccessful()) {
+            List<User> users = response.body();
+        }
+    }
+    
+    @Override
+    public void onFailure(Call<List<User>> call, Throwable t) {
+        Log.e(TAG, "Erreur: " + t.getMessage());
+    }
+});
+```
 
 ---
 
-## 🎯 Conseils de réussite
+## 📱 Tests
 
-1. **Pratiquer régulièrement** : Coder tous les jours
-2. **Lire les messages d'erreur** : Ils contiennent souvent la solution
-3. **Utiliser documentation** : developer.android.com
-4. **Copier/coller avec compréhension** : Ne pas copier aveuglément
-5. **Tester fréquemment** : Sur émulateur ET device réel
-6. **Versionner code** : Utiliser Git (GitHub, GitLab...)
+### Q : Comment tester sur appareil physique ?
+
+**R :**
+
+1. **Activer mode développeur** :
+   - Paramètres > À propos > Taper 7x "Numéro de build"
+
+2. **Activer débogage USB** :
+   - Paramètres > Options développeur > Débogage USB
+
+3. **Connecter USB** et autoriser ordinateur
+
+4. **Vérifier** : `adb devices` dans Terminal
+
+### Q : "Device unauthorized" dans adb ?
+
+**R :**
+- **Autoriser** sur téléphone
+- **Redémarrer adb** : `adb kill-server` puis `adb start-server`
 
 ---
 
-👨‍🏫 **Cours Android** | ISITCOM 2025-2026
+## 📦 Déploiement
 
-_Dernière mise à jour : Décembre 2025_
+### Q : Comment générer un APK ?
+
+**R :**
+
+1. `Build > Build Bundle(s) / APK(s) > Build APK(s)`
+2. Attendre fin compilation
+3. Cliquer "locate" dans notification
+4. APK dans `app/build/outputs/apk/debug/`
+
+### Q : Différence entre debug et release APK ?
+
+**R :**
+
+| Debug | Release |
+|-------|----------|
+| Non signé | Signé avec clé |
+| Debuggable | Optimisé (ProGuard) |
+| Test uniquement | Production |
+| Plus gros | Plus petit |
+
+---
+
+## 👥 Aide supplémentaire
+
+### Q : Où trouver de l'aide ?
+
+**R :**
+
+1. **Documentation officielle** : [developer.android.com](https://developer.android.com)
+2. **Stack Overflow** : [stackoverflow.com/questions/tagged/android](https://stackoverflow.com/questions/tagged/android)
+3. **GitHub du cours** : Issues et Discussions
+4. **Forums** : Reddit r/androiddev
+5. **Enseignant** : abdelwaheb.gueddes@isitc.u-sousse.tn
+
+---
+
+👨‍🏫 **FAQ Android** | ISITCOM 2025-2026
