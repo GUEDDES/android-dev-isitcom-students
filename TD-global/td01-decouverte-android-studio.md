@@ -1,81 +1,143 @@
-# TD 01 : Découverte d'Android Studio et Premier Projet
+# TD01 : Découverte d'Android Studio et premier projet
 
-**Durée** : 2 heures  
-**Objectif** : Se familiariser avec Android Studio et créer une application HelloWorld fonctionnelle.
+## 🎯 Objectifs
 
----
-
-## Partie 1 : Installation et configuration (30 min)
-
-### Exercice 1.1 : Vérification de l'installation
-
-1. Vérifier que JDK 17+ est installé :
-   ```bash
-   java -version
-   ```
-
-2. Lancer Android Studio et vérifier que le SDK Manager est accessible.
-
-3. Télécharger au moins les API 33, 34, 35.
-
-**Livrable** : Capture d'écran du SDK Manager montrant les APIs installées.
+- Prendre en main Android Studio.
+- Créer un premier projet simple.
+- Comprendre la structure d'un projet Android.
+- Exécuter une application sur émulateur.
 
 ---
 
-## Partie 2 : Création du premier projet (45 min)
+## Partie 1 : Installation et configuration (15 min)
 
-### Exercice 2.1 : HelloISITCOM
+### Étape 1 : Vérifier l'installation
+
+1. Ouvrir Android Studio.
+2. Vérifier que le SDK est installé (`File > Settings > Android SDK`).
+3. Vérifier qu'au moins API 33, 34, 35 sont installées.
+
+### Étape 2 : Créer un AVD
+
+1. Ouvrir Device Manager.
+2. Créer un Pixel 5 avec API 33.
+3. Lancer l'AVD et vérifier qu'il fonctionne.
+
+---
+
+## Partie 2 : Premier projet "HelloISITCOM" (30 min)
+
+### Consignes
 
 1. Créer un nouveau projet :
-   - Template : **Empty Views Activity**
-   - Nom : `HelloISITCOM`
-   - Package : `tn.isitcom.helloisitcom`
-   - Langage : **Java**
-   - Minimum SDK : **API 24**
+   - Template : **Empty Views Activity**.
+   - Name : `HelloISITCOM`.
+   - Package : `tn.isitcom.td01`.
+   - Language : Java.
+   - Minimum SDK : API 24.
 
-2. Explorer la structure du projet :
-   - Identifier `MainActivity.java`
-   - Identifier `activity_main.xml`
-   - Identifier `AndroidManifest.xml`
+2. Modifier `activity_main.xml` :
+   - Ajouter un `TextView` centré avec le texte "Bienvenue à l'ISITCOM".
+   - Taille : 24sp, style : bold.
 
-3. Modifier `activity_main.xml` pour afficher :
-   - Votre nom complet
-   - Votre groupe
-   - "Bienvenue au cours Android"
+3. Ajouter un `Button` sous le TextView :
+   - Texte : "Cliquez ici".
+   - Au clic, changer le texte du TextView en "Bonjour [Votre Nom]".
 
-4. Modifier la couleur du texte et la taille de police.
+4. Exécuter l'application sur l'AVD.
 
-**Livrable** : Capture d'écran de l'application exécutée sur l'émulateur.
+### Code attendu
+
+**activity_main.xml** :
+
+```xml
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bienvenue à l'ISITCOM"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cliquez ici"
+        app:layout_constraintTop_toBottomOf="@id/textWelcome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+**MainActivity.java** :
+
+```java
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView textWelcome = findViewById(R.id.textWelcome);
+        Button btnClick = findViewById(R.id.btnClick);
+
+        btnClick.setOnClickListener(v -> {
+            textWelcome.setText("Bonjour Ahmed"); // Remplacer par votre nom
+        });
+    }
+}
+```
 
 ---
 
-## Partie 3 : Interaction utilisateur (45 min)
+## Partie 3 : Améliorations (30 min)
 
-### Exercice 3.1 : Bouton interactif
+### Exercice 1 : Ajout d'un champ de saisie
 
-1. Ajouter un `Button` dans le layout.
-2. Au clic sur le bouton, changer le texte du `TextView`.
-3. Afficher un Toast "Bouton cliqué !".
+1. Ajouter un `EditText` pour saisir un prénom.
+2. Modifier le bouton pour afficher "Bonjour [prénom saisi]".
 
-### Exercice 3.2 : Compteur de clics
+### Exercice 2 : Compteur de clics
 
-1. Ajouter un compteur qui s'incrémente à chaque clic.
-2. Afficher la valeur dans le `TextView`.
-3. Ajouter un bouton "Réinitialiser" qui remet le compteur à zéro.
+1. Ajouter un deuxième `TextView` affichant "Clics : 0".
+2. À chaque clic sur le bouton, incrémenter le compteur.
 
-**Livrable** : Code source complet (MainActivity.java + activity_main.xml).
+### Exercice 3 : Toast
 
----
-
-## Barème (/20)
-
-| Exercice | Points |
-|----------|--------|
-| Installation et configuration | 4 |
-| Projet HelloISITCOM | 6 |
-| Bouton interactif | 5 |
-| Compteur de clics | 5 |
+1. Afficher un Toast "Bienvenue dans le TD01" au démarrage de l'application.
 
 ---
 
-👨‍🏫 **Enseignant** : A. GUEDDES – ISITCOM 2025-2026
+## 📄 Livrable
+
+- Projet Android Studio complet.
+- Captures d'écran de l'application en exécution.
+
+## 🏆 Barème (/20)
+
+| Critère | Points |
+|---------|--------|
+| Projet créé correctement | 4 |
+| Interface conforme | 4 |
+| Bouton fonctionnel | 4 |
+| Exercice 1 | 3 |
+| Exercice 2 | 3 |
+| Exercice 3 | 2 |
+
+---
+
+👨‍🏫 **Enseignant** : A. GUEDDES
