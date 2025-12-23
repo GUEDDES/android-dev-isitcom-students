@@ -1,104 +1,119 @@
-# Quiz - Module 5 : Cycle de vie et Intents
+# Module 5 : Quiz d'auto-évaluation
 
 ## Questions à choix multiples
 
 ### Question 1
-Quelle méthode du cycle de vie est appelée lorsque l'Activity devient visible ?
+Dans quel ordre sont appelées les méthodes au démarrage d'une Activity ?
 
-A) onCreate()  
-B) onStart()  
-C) onResume()  
-D) onPause()
+A) onResume() → onStart() → onCreate()  
+B) onCreate() → onStart() → onResume()  
+C) onCreate() → onResume() → onStart()  
+D) onStart() → onCreate() → onResume()
 
 <details>
 <summary>Réponse</summary>
-B) onStart() - L'Activity devient visible mais n'a pas encore le focus
+B) onCreate() → onStart() → onResume() (dans cet ordre)
 </details>
 
 ---
 
 ### Question 2
-Quelle méthode est appelée quand l'utilisateur peut interagir avec l'Activity ?
+Quelle méthode est appelée quand l'Activity passe en arrière-plan ?
 
-A) onStart()  
-B) onResume()  
-C) onCreate()  
-D) onRestart()
+A) onStop()  
+B) onPause()  
+C) onDestroy()  
+D) onBackground()
 
 <details>
 <summary>Réponse</summary>
-B) onResume() - L'Activity est au premier plan et interactive
+B) onPause() (puis onStop() si complètement invisible)
 </details>
 
 ---
 
 ### Question 3
-Qu'est-ce qu'un Intent explicite ?
+Comment passer un String à une autre Activity ?
 
-A) Un Intent qui démarre une Activity spécifique de l'application  
-B) Un Intent qui demande au système de choisir l'application  
-C) Un Intent pour partager des données  
-D) Un Intent pour les services
+A) intent.setString("key", "value")  
+B) intent.putExtra("key", "value")  
+C) intent.addString("key", "value")  
+D) intent.putString("key", "value")
 
 <details>
 <summary>Réponse</summary>
-A) Intent explicite = désigne une classe spécifique (SecondActivity.class)
+B) intent.putExtra("key", "value")
 </details>
 
 ---
 
 ### Question 4
-Comment passer une chaîne de caractères à une autre Activity ?
+Comment récupérer un extra String dans la seconde Activity ?
 
-A) intent.setString("KEY", "value")  
-B) intent.putExtra("KEY", "value")  
-C) intent.addData("KEY", "value")  
-D) intent.passString("KEY", "value")
+A) getString("KEY")  
+B) getIntent().getExtra("KEY")  
+C) getIntent().getStringExtra("KEY")  
+D) Intent.getStringExtra("KEY")
 
 <details>
 <summary>Réponse</summary>
-B) intent.putExtra("KEY", "value")
+C) getIntent().getStringExtra("KEY")
 </details>
 
 ---
 
 ### Question 5
-Quelle API remplace startActivityForResult() dépréciée ?
+Quelle API utiliser pour récupérer un résultat d'une Activity en 2025 ?
 
-A) startActivityWithResult()  
-B) Activity Result API avec registerForActivityResult()  
-C) launchActivity()  
-D) openActivityForResult()
+A) startActivityForResult()  
+B) Activity Result API (registerForActivityResult)  
+C) onActivityResult()  
+D) getActivityResult()
 
 <details>
 <summary>Réponse</summary>
-B) Activity Result API avec registerForActivityResult()
+B) Activity Result API (registerForActivityResult) - startActivityForResult est déprécié
 </details>
 
 ---
 
 ### Question 6
-Que fait finish() ?
+Que fait la méthode finish() ?
 
 A) Termine l'application  
-B) Ferme l'Activity courante  
-C) Met l'Activity en pause  
-D) Redémarre l'Activity
+B) Ferme l'Activity en cours  
+C) Arrête le processus  
+D) Met l'Activity en pause
 
 <details>
 <summary>Réponse</summary>
-B) Ferme l'Activity courante et retourne à la précédente
+B) Ferme l'Activity en cours et retourne à la précédente
 </details>
 
 ---
 
 ### Question 7
-Quelle méthode utiliser pour sauvegarder l'état lors d'une rotation ?
+Comment ouvrir une URL dans le navigateur ?
+
+A) Intent avec ACTION_VIEW et Uri  
+B) startBrowser(url)  
+C) WebView.open(url)  
+D) Intent avec ACTION_SEND
+
+<details>
+<summary>Réponse</summary>
+A) Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+</details>
+
+---
+
+### Question 8
+Quelle méthode sauvegarder l'état lors de la rotation ?
 
 A) onSave()  
 B) onSaveInstanceState()  
 C) saveState()  
-D) onPause()
+D) onConfigurationChanged()
 
 <details>
 <summary>Réponse</summary>
@@ -107,47 +122,32 @@ B) onSaveInstanceState(Bundle outState)
 
 ---
 
-### Question 8
-Quel Intent implicite ouvre une URL dans le navigateur ?
-
-A) Intent.ACTION_VIEW  
-B) Intent.ACTION_OPEN  
-C) Intent.ACTION_WEB  
-D) Intent.ACTION_BROWSER
-
-<details>
-<summary>Réponse</summary>
-A) Intent.ACTION_VIEW avec Uri.parse("https://...")
-</details>
-
----
-
 ### Question 9
-Où déclarer toutes les Activities ?
+Que signifie RESULT_OK ?
 
-A) build.gradle  
-B) AndroidManifest.xml  
-C) strings.xml  
-D) MainActivity.java
+A) L'Activity a réussi son traitement  
+B) Code de retour positif  
+C) Pas d'erreur  
+D) Toutes les réponses
 
 <details>
 <summary>Réponse</summary>
-B) AndroidManifest.xml avec balise <activity>
+D) Toutes les réponses (constante indiquant succès)
 </details>
 
 ---
 
 ### Question 10
-Que fait getIntent() ?
+Comment partager du texte vers d'autres apps ?
 
-A) Crée un nouvel Intent  
-B) Récupère l'Intent qui a lancé l'Activity  
-C) Lance une Activity  
-D) Retourne un Intent vide
+A) Intent ACTION_VIEW  
+B) Intent ACTION_SEND avec type "text/plain"  
+C) Intent ACTION_SHARE  
+D) ShareManager.share()
 
 <details>
 <summary>Réponse</summary>
-B) Récupère l'Intent reçu par l'Activity
+B) Intent avec ACTION_SEND et type "text/plain"
 </details>
 
 ---
@@ -158,58 +158,63 @@ B) Récupère l'Intent reçu par l'Activity
 Que fait ce code ?
 
 ```java
-Intent intent = new Intent(this, ProfileActivity.class);
-intent.putExtra("USER_ID", 123);
+Intent intent = new Intent(this, DetailActivity.class);
+intent.putExtra("USER_ID", 42);
+intent.putExtra("USER_NAME", "Alice");
 startActivity(intent);
 ```
 
-A) Crée une Activity  
-B) Lance ProfileActivity avec l'ID utilisateur 123  
-C) Envoie un message  
-D) Sauvegarde des données
+A) Lance DetailActivity sans données  
+B) Lance DetailActivity avec ID et nom  
+C) Attend un résultat de DetailActivity  
+D) Crée une nouvelle Activity
 
 <details>
 <summary>Réponse</summary>
-B) Démarre ProfileActivity en lui passant l'ID 123
+B) Lance DetailActivity en lui passant un ID (42) et un nom ("Alice")
 </details>
 
 ---
 
 ### Question 12
-Comment récupérer l'extra "USER_ID" dans ProfileActivity ?
+Que fait ce code dans DetailActivity ?
 
 ```java
-A) int id = getExtra("USER_ID");
-B) int id = getIntent().getIntExtra("USER_ID", 0);
-C) int id = Intent.getInt("USER_ID");
-D) int id = this.getInt("USER_ID");
+int userId = getIntent().getIntExtra("USER_ID", -1);
+String userName = getIntent().getStringExtra("USER_NAME");
 ```
+
+A) Envoie des données  
+B) Récupère les extras envoyés  
+C) Crée un Intent  
+D) Sauvegarde l'état
 
 <details>
 <summary>Réponse</summary>
-B) getIntent().getIntExtra("USER_ID", 0) - 0 est la valeur par défaut
+B) Récupère les extras : userId (défaut -1 si absent) et userName
 </details>
 
 ---
 
 ### Question 13
-Quelle est l'erreur dans ce code ?
+Quelle est l'erreur ?
 
 ```java
 @Override
-protected void onSaveInstanceState(Bundle outState) {
-    outState.putString("NAME", userName);
+protected void onCreate(Bundle savedInstanceState) {
+    setContentView(R.layout.activity_main);
+    super.onCreate(savedInstanceState);
 }
 ```
 
 A) Pas d'erreur  
-B) Manque super.onSaveInstanceState()  
-C) Mauvais type Bundle  
-D) Clé incorrecte
+B) super.onCreate() doit être appelé en premier  
+C) setContentView() mal placé  
+D) Manque un return
 
 <details>
 <summary>Réponse</summary>
-B) Il faut appeler super.onSaveInstanceState(outState) avant ou après
+B) super.onCreate() doit toujours être appelé AVANT setContentView()
 </details>
 
 ---
@@ -224,49 +229,40 @@ startActivity(intent);
 ```
 
 A) Appelle directement le numéro  
-B) Ouvre le composeur avec le numéro pré-rempli  
+B) Ouvre le clavier du téléphone avec le numéro  
 C) Envoie un SMS  
-D) Ajoute un contact
+D) Enregistre un contact
 
 <details>
 <summary>Réponse</summary>
-B) Ouvre l'application Téléphone avec le numéro saisi
+B) Ouvre l'application téléphone avec le numéro pré-rempli (ACTION_DIAL)
 </details>
 
 ---
 
 ### Question 15
-Activity Result API - Associer les parties
+Activity Result API : que fait ce code ?
 
 ```java
-// Partie 1
 ActivityResultLauncher<Intent> launcher = registerForActivityResult(
     new ActivityResultContracts.StartActivityForResult(),
     result -> {
         if (result.getResultCode() == RESULT_OK) {
-            // Traiter résultat
+            String data = result.getData().getStringExtra("RESULT");
+            textView.setText(data);
         }
     }
 );
-
-// Partie 2
-launcher.launch(intent);
-
-// Partie 3 (dans l'Activity lancée)
-setResult(RESULT_OK, data);
-finish();
 ```
 
-Quel est l'ordre d'exécution ?
-
-A) 1 → 2 → 3  
-B) 2 → 1 → 3  
-C) 1 → 3 → 2  
-D) 3 → 1 → 2
+A) Lance une Activity et attend son résultat  
+B) Enregistre un callback pour traiter le résultat  
+C) Affiche le résultat dans un TextView  
+D) Toutes les réponses
 
 <details>
 <summary>Réponse</summary>
-A) 1 (enregistrer) → 2 (lancer) → 3 (retourner résultat)
+D) Enregistre un launcher qui traite le résultat et affiche la donnée
 </details>
 
 ---
@@ -278,82 +274,42 @@ Expliquez la différence entre onPause() et onStop().
 
 <details>
 <summary>Réponse</summary>
-- **onPause()** : L'Activity est partiellement visible (ex: dialogue par-dessus), perd le focus mais reste visible
-- **onStop()** : L'Activity n'est plus visible du tout, complètement en arrière-plan
+- **onPause()** : L'Activity perd le focus mais est encore partiellement visible (ex: dialog par-dessus)
+- **onStop()** : L'Activity est complètement invisible (ex: nouvelle Activity en plein écran)
 </details>
 
 ---
 
 ### Question 17
-Pourquoi utiliser un Intent implicite plutôt qu'explicite ?
+Pourquoi sauvegarder l'état dans onSaveInstanceState() ?
 
 <details>
 <summary>Réponse</summary>
-Pour déléguer une action au système (ouvrir URL, partager, appeler) et laisser l'utilisateur choisir l'application. Permet d'utiliser des fonctionnalités système sans implémenter soi-même.
+Pour préserver les données temporaires lors de :
+- Rotation de l'écran
+- Mise en arrière-plan (si le système tue l'Activity)
+- Changements de configuration
 </details>
 
 ---
 
 ### Question 18
-Que se passe-t-il si on ne sauvegarde pas l'état dans onSaveInstanceState() ?
+Quelle est la différence entre Intent explicite et implicite ?
 
 <details>
 <summary>Réponse</summary>
-Lors d'une rotation d'écran ou destruction temporaire de l'Activity, toutes les données non sauvegardées (variables, textes saisis) sont perdues. L'Activity repart de zéro.
-</details>
-
----
-
-## Exercice pratique
-
-### Question 19
-Créez le code pour :
-1. Lancer une Activity "DetailActivity"
-2. Lui passer un nom (String) et un âge (int)
-3. Récupérer ces données dans DetailActivity
-4. Les afficher dans des TextView
-
-<details>
-<summary>Solution</summary>
-
-**MainActivity.java**
-```java
-// Lancer DetailActivity
-Intent intent = new Intent(this, DetailActivity.class);
-intent.putExtra("NAME", "Alice");
-intent.putExtra("AGE", 25);
-startActivity(intent);
-```
-
-**DetailActivity.java**
-```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_detail);
-    
-    // Récupérer extras
-    String name = getIntent().getStringExtra("NAME");
-    int age = getIntent().getIntExtra("AGE", 0);
-    
-    // Afficher
-    TextView textName = findViewById(R.id.textName);
-    TextView textAge = findViewById(R.id.textAge);
-    
-    textName.setText(name);
-    textAge.setText("Age: " + age + " ans");
-}
-```
+- **Explicite** : Cible une Activity précise de votre app (new Intent(this, DetailActivity.class))
+- **Implicite** : Demande au système de trouver une app capable de traiter l'action (ACTION_VIEW, ACTION_SEND...)
 </details>
 
 ---
 
 ## Barème
 
-- **18-19/19** : Excellent ! Maîtrise complète du cycle de vie et navigation
-- **15-17/19** : Très bien, quelques révisions mineures
-- **12-14/19** : Bien, revoir certains concepts
-- **< 12/19** : Reprendre le module en détail
+- **16-18/18** : Excellent ! Cycle de vie maîtrisé
+- **13-15/18** : Très bien
+- **10-12/18** : Bien, revoir certains concepts
+- **< 10/18** : Revoir le module en détail
 
 ---
 

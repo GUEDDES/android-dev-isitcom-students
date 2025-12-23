@@ -1,18 +1,18 @@
-# Quiz - Module 6 : RecyclerView
+# Module 6 : Quiz d'auto-évaluation
 
 ## Questions à choix multiples
 
 ### Question 1
-Pourquoi utiliser RecyclerView au lieu de ListView ?
+Pourquoi utiliser RecyclerView plutôt que ListView ?
 
-A) Plus facile à utiliser  
+A) Plus joli  
 B) Recycle les vues hors écran (performances)  
-C) Moins de code  
-D) Plus joli
+C) Plus simple  
+D) Obligatoire depuis Android 10
 
 <details>
 <summary>Réponse</summary>
-B) RecyclerView recycle les vues = beaucoup plus performant pour grandes listes
+B) RecyclerView recycle les vues pour meilleures performances
 </details>
 
 ---
@@ -20,10 +20,10 @@ B) RecyclerView recycle les vues = beaucoup plus performant pour grandes listes
 ### Question 2
 Quels sont les 3 composants essentiels de RecyclerView ?
 
-A) Adapter, ViewHolder, ListView  
+A) Adapter, ViewHolder, LayoutInflater  
 B) Adapter, ViewHolder, LayoutManager  
-C) Activity, Fragment, Adapter  
-D) ViewHolder, ListView, Manager
+C) RecyclerView, ListView, GridView  
+D) Activity, Fragment, View
 
 <details>
 <summary>Réponse</summary>
@@ -35,14 +35,14 @@ B) Adapter (lie données), ViewHolder (contient vues), LayoutManager (organisati
 ### Question 3
 Que fait onCreateViewHolder() ?
 
-A) Crée la vue pour chaque item (appelé pour chaque ligne)  
-B) Crée le ViewHolder (appelé une fois par vue visible)  
-C) Lie les données  
-D) Compte les items
+A) Crée une nouvelle vue pour chaque item  
+B) Lie données à la vue  
+C) Retourne le nombre d'items  
+D) Détruit les vues
 
 <details>
 <summary>Réponse</summary>
-B) Crée le ViewHolder, appelé seulement pour les vues visibles (recyclées ensuite)
+A) Crée (inflate) une nouvelle vue - appelé une fois par vue visible
 </details>
 
 ---
@@ -50,14 +50,14 @@ B) Crée le ViewHolder, appelé seulement pour les vues visibles (recyclées ens
 ### Question 4
 Que fait onBindViewHolder() ?
 
-A) Crée les vues  
-B) Lie les données aux vues (appelé pour chaque item)  
-C) Configure le LayoutManager  
-D) Détruit les vues
+A) Crée une vue  
+B) Lie les données d'un item à une vue existante  
+C) Compte les items  
+D) Définit le layout
 
 <details>
 <summary>Réponse</summary>
-B) Met à jour les vues avec les données de l'item à la position donnée
+B) Lie (bind) les données à une vue recyclée - appelé pour chaque item
 </details>
 
 ---
@@ -65,10 +65,10 @@ B) Met à jour les vues avec les données de l'item à la position donnée
 ### Question 5
 Que retourne getItemCount() ?
 
-A) Le nombre de vues visibles  
+A) La taille de l'écran  
 B) Le nombre total d'items dans la liste  
-C) La hauteur d'un item  
-D) L'index actuel
+C) Le nombre de vues visibles  
+D) 0
 
 <details>
 <summary>Réponse</summary>
@@ -78,76 +78,76 @@ B) Le nombre total d'items à afficher
 ---
 
 ### Question 6
-Quel LayoutManager pour une liste verticale ?
+Comment afficher une liste verticale ?
 
-A) VerticalLayoutManager  
-B) LinearLayoutManager  
-C) GridLayoutManager  
-D) ListLayoutManager
+A) recyclerView.setOrientation(VERTICAL)  
+B) recyclerView.setLayoutManager(new LinearLayoutManager(this))  
+C) recyclerView.setVertical(true)  
+D) recyclerView.setLayout(LinearLayout.VERTICAL)
 
 <details>
 <summary>Réponse</summary>
-B) LinearLayoutManager (orientation verticale par défaut)
+B) setLayoutManager(new LinearLayoutManager(this)) - vertical par défaut
 </details>
 
 ---
 
 ### Question 7
-Comment afficher une grille de 2 colonnes ?
+Comment afficher une grille 2 colonnes ?
 
 A) new GridLayoutManager(this, 2)  
-B) new LinearLayoutManager(this, 2)  
-C) new ColumnLayoutManager(this, 2)  
-D) recyclerView.setColumns(2)
+B) new GridManager(2)  
+C) setColumns(2)  
+D) new LayoutManager(GRID, 2)
 
 <details>
 <summary>Réponse</summary>
-A) GridLayoutManager avec le nombre de colonnes
+A) new GridLayoutManager(this, 2)
 </details>
 
 ---
 
 ### Question 8
-Comment notifier l'Adapter qu'un item a été ajouté à la position 5 ?
+Comment notifier un changement de données ?
 
-A) adapter.notifyDataSetChanged()  
-B) adapter.notifyItemInserted(5)  
+A) adapter.update()  
+B) adapter.notifyDataSetChanged()  
 C) adapter.refresh()  
-D) recyclerView.update(5)
+D) recyclerView.update()
 
 <details>
 <summary>Réponse</summary>
-B) notifyItemInserted(position) - plus performant que notifyDataSetChanged()
+B) adapter.notifyDataSetChanged() (ou notifyItemInserted/Removed pour être plus précis)
 </details>
 
 ---
 
 ### Question 9
-Que contient le ViewHolder ?
+Où définir le listener de clic dans l'Adapter ?
 
-A) Les données de l'item  
-B) Les références aux vues (TextView, ImageView...)  
-C) Le code de l'Adapter  
-D) Le RecyclerView
+A) Dans onCreateViewHolder()  
+B) Dans onBindViewHolder()  
+C) Dans getItemCount()  
+D) Dans le constructeur
 
 <details>
 <summary>Réponse</summary>
-B) Les références aux vues pour éviter de rappeler findViewById()
+B) Dans onBindViewHolder() ou via une interface callback
 </details>
 
 ---
 
 ### Question 10
-Où appeler setLayoutManager() ?
+Que fait LayoutInflater.from(parent.getContext()).inflate() ?
 
-A) Dans l'Adapter  
-B) Dans le ViewHolder  
-C) Dans l'Activity/Fragment  
-D) Dans le layout XML
+A) Crée une Activity  
+B) Convertit XML en objet View  
+C) Affiche un Toast  
+D) Insère dans la base de données
 
 <details>
 <summary>Réponse</summary>
-C) Dans onCreate() de l'Activity ou onViewCreated() du Fragment
+B) Convertit (inflate) un layout XML en objet View Java
 </details>
 
 ---
@@ -158,84 +158,88 @@ C) Dans onCreate() de l'Activity ou onViewCreated() du Fragment
 Que fait ce code ?
 
 ```java
-recyclerView.setLayoutManager(new LinearLayoutManager(this));
-recyclerView.setAdapter(new ContactAdapter(contacts));
+@Override
+public int getItemCount() {
+    return items.size();
+}
 ```
 
-A) Crée une liste verticale de contacts  
-B) Crée une grille  
-C) Configure seulement  
-D) Affiche un message
+A) Retourne 0  
+B) Compte les vues visibles  
+C) Retourne le nombre d'items dans la liste  
+D) Crée des items
 
 <details>
 <summary>Réponse</summary>
-A) Configure RecyclerView avec liste verticale et affiche les contacts
+C) Retourne le nombre total d'items à afficher
 </details>
 
 ---
 
 ### Question 12
-Que manque-t-il dans ce ViewHolder ?
+Quelle est l'erreur ?
 
 ```java
-static class MyViewHolder extends RecyclerView.ViewHolder {
-    TextView textName;
-    
-    public MyViewHolder(View itemView) {
-        super(itemView);
-        // ???
-    }
-}
+RecyclerView recyclerView = findViewById(R.id.recyclerView);
+MyAdapter adapter = new MyAdapter(dataList);
+recyclerView.setAdapter(adapter);
+// Manque quelque chose ?
 ```
 
-A) Rien  
-B) findViewById pour initialiser textName  
-C) setContentView  
-D) new TextView()
+A) Pas d'erreur  
+B) Manque setLayoutManager()  
+C) Manque setContentView()  
+D) Manque notifyDataSetChanged()
 
 <details>
 <summary>Réponse</summary>
-B) textName = itemView.findViewById(R.id.textName);
+B) Il faut appeler recyclerView.setLayoutManager(new LinearLayoutManager(this))
 </details>
 
 ---
 
 ### Question 13
-Quel est le problème dans cet Adapter ?
+Que fait ce code ?
 
 ```java
-@Override
-public int getItemCount() {
-    return 0;
-}
+adapter.setOnItemClickListener((item, position) -> {
+    Toast.makeText(this, item.getName(), Toast.LENGTH_SHORT).show();
+});
 ```
 
-A) Pas de problème  
-B) Retourne toujours 0, liste vide  
-C) Mauvais type de retour  
-D) Nom de méthode incorrect
+A) Crée un adapter  
+B) Définit un callback de clic sur item  
+C) Affiche tous les items  
+D) Supprime un item
 
 <details>
 <summary>Réponse</summary>
-B) Doit retourner items.size() ou liste.length
+B) Définit une action à exécuter lors du clic sur un item
 </details>
 
 ---
 
 ### Question 14
-Comment implémenter un clic sur un item ?
+Corrigez ce ViewHolder :
 
 ```java
-// Dans onBindViewHolder
-A) holder.itemView.setOnClickListener(v -> { /* code */ });
-B) recyclerView.setOnClickListener(...);
-C) adapter.setOnClickListener(...);
-D) Impossible
+static class ViewHolder extends RecyclerView.ViewHolder {
+    TextView textName;
+    
+    public ViewHolder(View itemView) {
+        textName = itemView.findViewById(R.id.textName);
+    }
+}
 ```
+
+A) Pas d'erreur  
+B) Manque super(itemView)  
+C) static inutile  
+D) B est correct
 
 <details>
 <summary>Réponse</summary>
-A) Sur holder.itemView dans onBindViewHolder ou via interface callback
+B et D) Il faut appeler super(itemView) dans le constructeur
 </details>
 
 ---
@@ -244,22 +248,17 @@ A) Sur holder.itemView dans onBindViewHolder ou via interface callback
 Que fait ce code ?
 
 ```java
-List<Contact> contacts = new ArrayList<>();
-contacts.add(new Contact("Alice", "123"));
-contacts.add(new Contact("Bob", "456"));
-
-ContactAdapter adapter = new ContactAdapter(contacts);
-adapter.notifyDataSetChanged();
+adapter.notifyItemInserted(items.size() - 1);
 ```
 
-A) Met à jour l'affichage  
-B) Appel inutile (adapter pas encore attaché)  
-C) Crée une erreur  
-D) Supprime les données
+A) Insère un nouvel item  
+B) Notifie qu'un item a été ajouté à la fin  
+C) Supprime un item  
+D) Met à jour tous les items
 
 <details>
 <summary>Réponse</summary>
-B) notifyDataSetChanged() inutile avant setAdapter(). Appeler après modifications ultérieures.
+B) Notifie que le dernier item a été ajouté (avec animation)
 </details>
 
 ---
@@ -267,69 +266,51 @@ B) notifyDataSetChanged() inutile avant setAdapter(). Appeler après modificatio
 ## Questions ouvertes
 
 ### Question 16
-Expliquez le principe du recyclage dans RecyclerView.
+Expliquez le pattern ViewHolder et son intérêt.
 
 <details>
 <summary>Réponse</summary>
-Quand un item sort de l'écran (scroll), sa vue est réutilisée pour afficher un nouvel item qui entre. Seules les données changent (via onBindViewHolder), pas la structure de la vue. Économise mémoire et temps de création.
+Le ViewHolder stocke les références aux vues (TextView, Button...) pour éviter de rappeler findViewById() à chaque fois. Cela améliore les performances en réduisant les recherches dans la hiérarchie des vues.
 </details>
 
 ---
 
 ### Question 17
-Différence entre notifyDataSetChanged() et notifyItemInserted() ?
+Quelle est la différence entre notifyDataSetChanged() et notifyItemInserted() ?
 
 <details>
 <summary>Réponse</summary>
-- **notifyDataSetChanged()** : Rafraîchit toute la liste (lent, pas d'animation)
-- **notifyItemInserted(position)** : Notifie qu'un seul item a changé (rapide, avec animation)
+- **notifyDataSetChanged()** : Rafraîchit toute la liste (pas d'animation)
+- **notifyItemInserted(position)** : Notifie qu'un seul item a changé (avec animation, plus performant)
 </details>
 
 ---
 
-## Exercice pratique
-
 ### Question 18
-Créez un Adapter simple pour afficher une liste de noms (String).
+Comment implanter un clic sur item avec interface callback ?
 
 <details>
-<summary>Solution</summary>
-
+<summary>Réponse</summary>
 ```java
-public class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameViewHolder> {
-    
-    private List<String> names;
-    
-    public NameAdapter(List<String> names) {
-        this.names = names;
-    }
-    
-    @Override
-    public NameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-            .inflate(android.R.layout.simple_list_item_1, parent, false);
-        return new NameViewHolder(view);
-    }
-    
-    @Override
-    public void onBindViewHolder(NameViewHolder holder, int position) {
-        holder.textName.setText(names.get(position));
-    }
-    
-    @Override
-    public int getItemCount() {
-        return names.size();
-    }
-    
-    static class NameViewHolder extends RecyclerView.ViewHolder {
-        TextView textName;
-        
-        public NameViewHolder(View itemView) {
-            super(itemView);
-            textName = itemView.findViewById(android.R.id.text1);
-        }
-    }
+// 1. Définir interface dans Adapter
+public interface OnItemClickListener {
+    void onItemClick(Item item, int position);
 }
+
+// 2. Stocker listener
+private OnItemClickListener listener;
+
+// 3. Setter
+public void setOnItemClickListener(OnItemClickListener listener) {
+    this.listener = listener;
+}
+
+// 4. Appeler dans onBindViewHolder
+itemView.setOnClickListener(v -> {
+    if (listener != null) {
+        listener.onItemClick(items.get(position), position);
+    }
+});
 ```
 </details>
 
@@ -337,10 +318,10 @@ public class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameViewHolder
 
 ## Barème
 
-- **17-18/18** : Excellent ! Maîtrise complète de RecyclerView
-- **14-16/18** : Très bien
-- **11-13/18** : Bien, quelques révisions
-- **< 11/18** : Revoir le module
+- **16-18/18** : Excellent ! RecyclerView maîtrisé
+- **13-15/18** : Très bien
+- **10-12/18** : Bien, revoir certains concepts
+- **< 10/18** : Revoir le module
 
 ---
 
