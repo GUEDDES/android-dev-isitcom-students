@@ -1,164 +1,275 @@
-# 📱 Guide Android pour Étudiants ISITCOM
+# 🎓 Cours Android - ISITCOM 2025/2026
 
-> Ressources pédagogiques complètes pour maîtriser le développement d'applications Android natives
+> Support de cours complet pour le développement d'applications Android natives en Java
 
-[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
-[![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Android](https://img.shields.io/badge/Android-15%20(API%2035)-3DDC84?logo=android)](https://developer.android.com/)
+[![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)](https://www.oracle.com/java/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 🎯 Objectif
+**Enseignant** : A. GUEDDES  
+**Institution** : Institut Supérieur d'Informatique et des Technologies de Communication (ISITCOM)  
+**Année universitaire** : 2025-2026
 
-Ce dépôt regroupe l'ensemble des supports pédagogiques nécessaires pour apprendre le développement d'applications Android natives. Vous y trouverez des explications détaillées, des exemples pratiques, des exercices guidés et des projets complets.
+---
 
-## 📚 Structure du Cours
+## 📚 Table des matières
 
-### Module 1 : Environnement Android
-**📂 [01-environnement-android](./01-environnement-android)**
-- Découverte de l'écosystème Android
-- Architecture de la plateforme
-- Versions et APIs
-- Quiz de validation
+### Modules théoriques (Cours)
 
-### Module 2 : SDK et Outils
-**📂 [02-sdk-et-outils](./02-sdk-et-outils)**
-- Installation d'Android Studio
-- Configuration du SDK Manager
-- Création d'émulateurs (AVD)
-- Exercices pratiques
+| Module | Titre | Contenu |
+|--------|-------|--------|
+| **01** | [Environnement Android](01-environnement-android/) | Historique, architecture, types d'applications, marché |
+| **02** | [SDK et outils](02-sdk-et-outils/) | Installation Android Studio, SDK Manager, AVD, ADB, Gradle |
+| **03** | [Premier projet](03-creation-premier-projet/) | HelloWorld, structure projet, MainActivity, exécution |
+| **04** | [Interfaces et layouts](04-interfaces-views-layouts/) | Views, widgets, ConstraintLayout, findViewById |
+| **05** | [Cycle de vie et Intents](05-activites-cycle-vie-intents/) | Callbacks Activity, navigation, passage de données, Activity Result API |
+| **06** | [RecyclerView](06-listes-recyclerview/) | Adapter, ViewHolder, listes dynamiques, gestion clics |
+| **07** | [Room Database](07-donnees-room/) | Entity, DAO, CRUD, stockage local SQLite |
+| **08** | [Fragments et Navigation](08-fragments-et-navigation/) | Fragments, Navigation Component, Bottom Navigation |
+| **09** | [Ergonomie et Material Design](09-ergonomie-et-material/) | Thèmes, Material Components, Dark Mode |
+| **10** | [Projets de synthèse](10-projets-synthese/) | Mini-projets complets, architecture MVVM |
 
-### Module 3 : Premier Projet
-**📂 [03-creation-premier-projet](./03-creation-premier-projet)**
-- Application HelloWorld
-- Structure d'un projet Android
-- Fichiers essentiels (Manifest, Gradle)
-- Exécution sur émulateur
+### Travaux dirigés (TD)
 
-### Module 4 : Interfaces & Layouts
-**📂 [04-interfaces-views-layouts](./04-interfaces-views-layouts)**
-- Vues et composants UI
-- Layouts (LinearLayout, ConstraintLayout)
-- Design Editor
-- TD : Construction d'interfaces
+Tous les TD sont disponibles dans le dossier [`TD-global/`](TD-global/)
 
-### Module 5 : Activités & Navigation
-**📂 [05-activites-cycle-vie-intents](./05-activites-cycle-vie-intents)**
-- Cycle de vie d'une Activity
-- Intents explicites et implicites
-- Navigation entre écrans
-- Passage de données
+| TD | Titre | Thème |
+|----|-------|-------|
+| **TD01** | Installation et configuration | Android Studio, SDK, premier projet |
+| **TD02** | Interfaces utilisateur | Layouts, contraintes, views |
+| **TD03** | Navigation multi-écrans | Activities, Intents, cycle de vie |
+| **TD04** | Listes dynamiques | RecyclerView, Adapter, ViewHolder |
+| **TD05** | Stockage local | Room Database, CRUD |
+| **TD06** | Fragments | Navigation Component, Bottom Nav |
+| **TD07** | Material Design | Thèmes, composants, ergonomie |
+| **TD08** | Projet complet | Application Tasks Manager |
+| **TD09** | API REST | Retrofit, JSON, images distantes |
+| **TD10** | Projet final | Application complète au choix |
 
-### Module 6 : Listes Dynamiques
-**📂 [06-listes-recyclerview](./06-listes-recyclerview)**
-- RecyclerView moderne
-- Adapters et ViewHolders
-- Layouts multiples (liste, grille)
-- TP : Liste de contacts
+---
 
-### Module 7 : Stockage Local
-**📂 [07-donnees-room](./07-donnees-room)**
-- Room Database (ORM)
-- Entités et DAO
-- CRUD complet
-- TP : Application de gestion
+## 🚀 Démarrage rapide
 
-### Module 8 : Fragments
-**📂 [08-fragments-et-navigation](./08-fragments-et-navigation)**
-- Fragments réutilisables
-- Navigation Component
-- Bottom Navigation
-- Adaptation tablette/smartphone
+### Prérequis
 
-### Module 9 : Ergonomie
-**📂 [09-ergonomie-et-material](./09-ergonomie-et-material)**
-- Material Design 3
-- TopAppBar et menus
-- Dialogues et snackbars
-- Dark mode
+- **Ordinateur** : Windows 10/11, macOS, ou Linux
+- **RAM** : 8 Go minimum (16 Go recommandé)
+- **Disque** : 10 Go libres
+- **Connexion internet** : pour télécharger SDK et dépendances
 
-### Module 10 : Projets Complets
-**📂 [10-projets-synthese](./10-projets-synthese)**
-- Mini-projets guidés
-- Sujets d'examens
-- Corrections commentées
+### Installation
 
-## 🚀 Prérequis
+1. **Télécharger Android Studio** : [developer.android.com/studio](https://developer.android.com/studio)
+2. **Installer** : suivre l'assistant d'installation
+3. **Configuration initiale** : choisir "Standard" lors du premier lancement
+4. **SDK** : l'assistant téléchargera automatiquement les composants nécessaires
 
-- **Ordinateur** : 8 GB RAM minimum, 10 GB d'espace libre
-- **Java** : JDK 17+
-- **Android Studio** : Version 2024.2 ou supérieure
-- **Connaissances** : Bases en Java (classes, objets, héritage)
+Guide complet : [Module 2 - SDK et outils](02-sdk-et-outils/README.md)
 
-## 📥 Installation
+### Premier projet
 
-### 1. Cloner le dépôt
 ```bash
-git clone https://github.com/GUEDDES/android-dev-isitcom-students.git
-cd android-dev-isitcom-students
+# Dans Android Studio
+File > New > New Project > Empty Views Activity
+
+Name: HelloIsitcom
+Package: tn.isitcom.helloisitcom
+Language: Java
+Minimum SDK: API 24 (Android 7.0)
 ```
 
-### 2. Installer Android Studio
-Téléchargez depuis [developer.android.com/studio](https://developer.android.com/studio)
+Tutoriel complet : [Module 3 - Premier projet](03-creation-premier-projet/README.md)
 
-### 3. Ouvrir les projets
-Chaque module contient des projets Android Studio. Pour les ouvrir :
-1. File → Open
-2. Sélectionner le dossier du projet
-3. Laisser Gradle synchroniser
+---
 
-## 🎓 Comment utiliser ce dépôt ?
+## 📝 Structure du dépôt
 
-### Pour les débutants
-1. Suivez les modules dans l'ordre (01 → 10)
-2. Lisez les fichiers `README.md` de chaque module
-3. Testez les exemples fournis
-4. Réalisez les exercices proposés
+```
+android-dev-isitcom-students/
+├── 01-environnement-android/       # Introduction à Android
+│   ├── README.md                  # Cours principal
+│   ├── fiche-synthese.md          # Résumé du module
+│   ├── quiz.md                    # Quiz d'auto-évaluation
+│   └── schemas/                   # Diagrammes et images
+├── 02-sdk-et-outils/             # Configuration environnement
+├── 03-creation-premier-projet/   # HelloWorld
+├── 04-interfaces-views-layouts/  # UI et layouts
+├── 05-activites-cycle-vie-intents/ # Navigation
+├── 06-listes-recyclerview/       # Listes dynamiques
+├── 07-donnees-room/              # Base de données
+├── 08-fragments-et-navigation/   # Fragments
+├── 09-ergonomie-et-material/     # Material Design
+├── 10-projets-synthese/          # Projets complets
+│
+├── TD-global/                    # Tous les travaux dirigés
+│   ├── README.md                  # Index des TD
+│   ├── td01-installation/
+│   ├── td02-interfaces/
+│   ├── ...
+│   └── td10-publication/
+│
+├── CONTRIBUTING.md               # Guide de contribution
+├── RESSOURCES.md                 # Liens utiles externes
+├── LICENSE                       # Licence MIT
+└── README.md                     # Ce fichier
+```
 
-### Pour réviser
-- Consultez les fiches de synthèse dans chaque module
-- Refaites les TD et comparez avec les corrections
-- Explorez les projets complets du module 10
+---
 
-### Pour approfondir
-- Modifiez les exemples existants
-- Combinez plusieurs concepts dans un projet personnel
-- Consultez les ressources externes référencées
+## 🎯 Objectifs pédagogiques
 
-## 📖 Ressources Complémentaires
+À la fin de ce cours, les étudiants seront capables de :
 
-- 📘 [Documentation officielle Android](https://developer.android.com)
-- 🎥 [Chaîne Android Developers](https://www.youtube.com/androiddevelopers)
-- 🏗️ [Material Design Guidelines](https://m3.material.io)
-- 💬 [Stack Overflow - Android](https://stackoverflow.com/questions/tagged/android)
-- 📱 [Jetpack Libraries](https://developer.android.com/jetpack)
+✅ Installer et configurer un environnement de développement Android  
+✅ Créer des interfaces utilisateur adaptées et responsive  
+✅ Gérer la navigation entre plusieurs écrans  
+✅ Afficher des listes dynamiques avec RecyclerView  
+✅ Stocker des données localement avec Room  
+✅ Utiliser des Fragments et Navigation Component  
+✅ Consommer des API REST avec Retrofit  
+✅ Appliquer les principes du Material Design  
+✅ Concevoir et développer une application complète  
+
+---
+
+## 🛠️ Stack technique
+
+- **Langage** : Java 17
+- **IDE** : Android Studio Ladybug | 2024.2.1
+- **SDK** : Android 15 (API 35)
+- **Min SDK** : Android 7.0 (API 24)
+- **Build** : Gradle 8.x
+- **Architecture** : MVVM (recommandée pour projets avancés)
+
+### Bibliothèques principales
+
+- **AndroidX** : AppCompat, ConstraintLayout, RecyclerView
+- **Material Components** : com.google.android.material
+- **Room** : Base de données locale
+- **Retrofit** : Appels API REST
+- **Glide** : Chargement d'images
+- **Navigation Component** : Navigation entre fragments
+
+---
+
+## 📊 Progression recommandée
+
+### Semaines 1-2 : Fondamentaux
+- Module 1 : Découverte d'Android
+- Module 2 : Installation environnement
+- Module 3 : Premier projet
+- **TD01** : Installation et HelloWorld
+
+### Semaines 3-4 : Interfaces
+- Module 4 : Views et layouts
+- **TD02** : Construction d'interfaces
+- Mini-projet : Carte de visite
+
+### Semaines 5-6 : Navigation
+- Module 5 : Cycle de vie et Intents
+- **TD03** : Navigation multi-écrans
+- Mini-projet : Application multi-écrans
+
+### Semaines 7-8 : Listes
+- Module 6 : RecyclerView
+- **TD04** : Listes dynamiques
+- Mini-projet : Liste de contacts
+
+### Semaines 9-10 : Données
+- Module 7 : Room Database
+- **TD05** : Stockage local
+- Mini-projet : Application de notes
+
+### Semaines 11-12 : Avancé
+- Module 8 : Fragments
+- Module 9 : Material Design
+- **TD06-TD07** : Fragments et thèmes
+
+### Semaines 13-14 : Synthèse
+- Module 10 : Projets complets
+- **TD08-TD09** : API et projet complet
+- **TD10** : Projet final
+
+---
+
+## 💯 Évaluation
+
+- **TD et exercices** : 30%
+- **Mini-projets** : 30%
+- **Projet final** : 40%
+
+### Projet final (TD10)
+
+Choix entre 3 projets :
+1. Gestionnaire de budget
+2. Application de recettes
+3. Suivi de lecture
+
+Grille d'évaluation détaillée : [TD10](TD-global/td10-publication/README.md)
+
+---
 
 ## 🤝 Contribution
 
-Vous avez trouvé une erreur ? Vous voulez améliorer un exemple ?
+Les contributions sont les bienvenues ! Consultez [CONTRIBUTING.md](CONTRIBUTING.md).
 
-1. Forkez ce dépôt
-2. Créez une branche (`git checkout -b amelioration/nouvelle-feature`)
-3. Committez vos changements (`git commit -m 'Ajout de...'`)
-4. Poussez vers la branche (`git push origin amelioration/nouvelle-feature`)
-5. Ouvrez une Pull Request
+### Comment aider
 
-## ⚠️ Important
+- Signaler des erreurs via [Issues](https://github.com/GUEDDES/android-dev-isitcom-students/issues)
+- Proposer des améliorations via Pull Requests
+- Partager des ressources externes pertinentes
+- Ajouter des exemples de code
 
-Ce dépôt est un **support pédagogique**. Les exemples sont volontairement simplifiés pour faciliter l'apprentissage. Pour des applications en production, consultez les bonnes pratiques officielles d'Android.
+---
+
+## 🔗 Ressources externes
+
+- [Documentation Android officielle](https://developer.android.com/)
+- [Material Design Guidelines](https://m3.material.io/)
+- [Android Codelabs](https://codelabs.developers.google.com/?cat=Android)
+- [Stack Overflow - Android](https://stackoverflow.com/questions/tagged/android)
+
+Liste complète : [RESSOURCES.md](RESSOURCES.md)
+
+---
+
+## ❓ FAQ
+
+### Android Studio est très lent, que faire ?
+- Augmenter la RAM allouée dans `Help > Edit Custom VM Options`
+- Fermer les projets inutiles
+- Désactiver les plugins non utilisés
+
+### Mon émulateur ne démarre pas
+- Vérifier que la virtualisation est activée dans le BIOS
+- Utiliser un appareil réel en USB
+- Essayer un AVD avec une API plus basse
+
+### "Cannot resolve symbol R"
+- Nettoyer le projet : `Build > Clean Project`
+- Rebuild : `Build > Rebuild Project`
+- Synchroniser Gradle : `File > Sync Project with Gradle Files`
+
+---
 
 ## 📧 Contact
 
 **Enseignant** : A. GUEDDES  
 **Email** : abdelwaheb.gueddes@isitc.u-sousse.tn  
-**Institution** : ISITCom - Université de Sousse
-
-## 📜 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+**Institution** : ISITCOM - Université de Sousse
 
 ---
 
-<div align="center">
-  <strong>🌟 Bon apprentissage et bonne programmation ! 🌟</strong>
-  <br><br>
-  <em>Mis à jour pour l'année universitaire 2025-2026</em>
-</div>
+## 📜 Licence
+
+Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+<p align="center">
+  <i>Bon apprentissage et bon code ! 🚀</i>
+</p>
+
+<p align="center">
+  <img src="https://developer.android.com/static/images/brand/Android_Robot.svg" width="100">
+</p>
