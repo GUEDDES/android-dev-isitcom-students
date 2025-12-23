@@ -14,7 +14,7 @@
 
 ### 1.1 États principaux
 
-Une Activity passe par plusieurs états durant son existence : [file:2]
+Une Activity passe par plusieurs états durant son existence : 
 
 - **Created** : l'Activity vient d'être créée.
 - **Started** : l'Activity devient visible.
@@ -25,7 +25,7 @@ Une Activity passe par plusieurs états durant son existence : [file:2]
 
 ### 1.2 Callbacks essentiels
 
-Le système Android appelle automatiquement ces méthodes : [file:2]
+Le système Android appelle automatiquement ces méthodes : 
 
 | Callback | Rôle |
 |---------|------|
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 ### 2.1 Intent explicite : naviguer vers une Activity spécifique
 
-Un **Intent explicite** désigne précisément la classe cible. [file:2]
+Un **Intent explicite** désigne précisément la classe cible. 
 
 **Exemple** : passer de `MainActivity` à `SecondActivity`.
 
@@ -109,7 +109,7 @@ btnGo.setOnClickListener(v -> {
 
 ### 2.2 Intent implicite : action générique
 
-Un **Intent implicite** ne précise pas la classe mais une **action** (ouvrir URL, appeler, partager...). [file:2]
+Un **Intent implicite** ne précise pas la classe mais une **action** (ouvrir URL, appeler, partager...). 
 
 **Exemples :**
 
@@ -135,7 +135,7 @@ startActivity(Intent.createChooser(shareIntent, "Partager via"));
 
 ### 3.1 Envoyer des données
 
-Utiliser `putExtra` pour ajouter des paires clé-valeur : [file:2]
+Utiliser `putExtra` pour ajouter des paires clé-valeur : 
 
 ```java
 Intent intent = new Intent(this, ProfileActivity.class);
@@ -171,13 +171,13 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ### 4.1 Problème de `startActivityForResult` (déprécié)
 
-`startActivityForResult` est obsolète depuis Android 11 (API 30). [file:2]
+`startActivityForResult` est obsolète depuis Android 11 (API 30). 
 
 Il fallait gérer un code de requête global et un callback `onActivityResult` unique.
 
 ### 4.2 Solution moderne : `ActivityResultLauncher`
 
-Déclarer un launcher avant `onCreate` : [file:2]
+Déclarer un launcher avant `onCreate` : 
 
 ```java
 public class MainActivity extends AppCompatActivity {
