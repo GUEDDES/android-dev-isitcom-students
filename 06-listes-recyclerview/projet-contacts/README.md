@@ -1,177 +1,59 @@
-# Projet Module 6 : Application Contacts avec RecyclerView
+# 📞 Projet Module 6 : Application Contacts avec RecyclerView
 
 ## 🎯 Objectif
 
 Créer une application de gestion de contacts avec liste scrollable, ajout, suppression et recherche.
 
-Concepts : RecyclerView, Adapter, ViewHolder, ItemClickListener, SearchView.
+**Concepts** : RecyclerView, Adapter, ViewHolder, ItemClickListener, SearchView, Dialog, Intent implicite.
 
 ---
 
-## 📋 Fonctionnalités
+## ✨ Fonctionnalités
 
-- Liste de contacts avec avatar
-- Ajout de nouveau contact (Dialog)
-- Suppression au clic long
-- Recherche en temps réel
-- Click pour appeler (Intent implicite)
+✅ Liste de contacts avec avatar coloré  
+✅ Ajout de nouveau contact (Dialog Material Design)  
+✅ Suppression au clic long avec confirmation  
+✅ Recherche en temps réel (nom ou téléphone)  
+✅ Click pour appeler (Intent implicite ACTION_DIAL)  
+✅ Vue vide quand aucun contact  
+✅ Scroll fluide avec animations  
 
 ---
 
-## 📱 Interface - MainActivity (activity_main.xml)
+## 📂 Structure du projet
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        app:title="Mes Contacts"
-        app:titleTextColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:queryHint="Rechercher un contact..."
-        android:background="@android:color/white"
-        android:elevation="2dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/searchView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        android:contentDescription="Ajouter contact"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
-
-    <TextView
-        android:id="@+id/tvEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Aucun contact"
-        android:textSize="18sp"
-        android:textColor="#9E9E9E"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+```
+app/src/main/
+├── java/tn/isitcom/contacts/
+│   ├── MainActivity.java          # Activity principale
+│   ├── ContactAdapter.java        # Adapter RecyclerView
+│   └── Contact.java               # Modèle de données
+├── res/
+│   ├── layout/
+│   │   ├── activity_main.xml      # Layout principal
+│   │   ├── item_contact.xml       # Layout item liste
+│   │   └── dialog_add_contact.xml # Dialog ajout contact
+│   ├── drawable/
+│   │   ├── circle_bg.xml          # Fond circulaire avatar
+│   │   ├── ic_add.xml             # Icône + (FAB)
+│   │   └── ic_call.xml            # Icône téléphone
+│   ├── values/
+│   │   ├── strings.xml
+│   │   ├── colors.xml
+│   │   └── themes.xml
+│   └── mipmap/
+│       ├── ic_launcher.png
+│       └── ic_launcher_round.png
+└── AndroidManifest.xml
 ```
 
 ---
 
-## 📱 Item Layout (item_contact.xml)
+## 📝 Fichiers du projet
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+### 1️⃣ **Contact.java** - Modèle de données
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <!-- Avatar circulaire -->
-        <TextView
-            android:id="@+id/tvAvatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/circle_bg"
-            android:gravity="center"
-            android:text="A"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <!-- Nom -->
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Alice Martin"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#212121"
-            app:layout_constraintTop_toTopOf="@id/tvAvatar"
-            app:layout_constraintStart_toEndOf="@id/tvAvatar"
-            app:layout_constraintEnd_toStartOf="@id/ivCall"
-            android:layout_marginStart="16dp" />
-
-        <!-- Téléphone -->
-        <TextView
-            android:id="@+id/tvPhone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="+216 12 345 678"
-            android:textSize="14sp"
-            android:textColor="#757575"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
-            app:layout_constraintStart_toEndOf="@id/tvAvatar"
-            app:layout_constraintEnd_toStartOf="@id/ivCall"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp" />
-
-        <!-- Bouton appel -->
-        <ImageView
-            android:id="@+id/ivCall"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_call"
-            android:padding="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Appeler"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/purple_500" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
-```
-
----
-
-## ☕ Code Java - Contact.java (Modèle)
+**Emplacement** : `app/src/main/java/tn/isitcom/contacts/Contact.java`
 
 ```java
 package tn.isitcom.contacts;
@@ -201,7 +83,9 @@ public class Contact {
 
 ---
 
-## ☕ Code Java - ContactAdapter.java
+### 2️⃣ **ContactAdapter.java** - Adapter RecyclerView
+
+**Emplacement** : `app/src/main/java/tn/isitcom/contacts/ContactAdapter.java`
 
 ```java
 package tn.isitcom.contacts;
@@ -326,7 +210,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
 ---
 
-## ☕ Code Java - MainActivity.java
+### 3️⃣ **MainActivity.java** - Activity principale
+
+**Emplacement** : `app/src/main/java/tn/isitcom/contacts/MainActivity.java`
 
 ```java
 package tn.isitcom.contacts;
@@ -466,7 +352,291 @@ public class MainActivity extends AppCompatActivity implements ContactAdapter.On
 
 ---
 
-## 📚 Explication détaillée
+## 📱 Layouts XML
+
+### 4️⃣ **activity_main.xml** - Layout principal
+
+**Emplacement** : `app/src/main/res/layout/activity_main.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:title="Mes Contacts"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:queryHint="Rechercher un contact..."
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        android:contentDescription="Ajouter contact"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aucun contact"
+        android:textSize="18sp"
+        android:textColor="#9E9E9E"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+---
+
+### 5️⃣ **item_contact.xml** - Layout item liste
+
+**Emplacement** : `app/src/main/res/layout/item_contact.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Avatar circulaire -->
+        <TextView
+            android:id="@+id/tvAvatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_bg"
+            android:gravity="center"
+            android:text="A"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Nom -->
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Alice Martin"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            app:layout_constraintTop_toTopOf="@id/tvAvatar"
+            app:layout_constraintStart_toEndOf="@id/tvAvatar"
+            app:layout_constraintEnd_toStartOf="@id/ivCall"
+            android:layout_marginStart="16dp" />
+
+        <!-- Téléphone -->
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="+216 12 345 678"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/tvAvatar"
+            app:layout_constraintEnd_toStartOf="@id/ivCall"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp" />
+
+        <!-- Bouton appel -->
+        <ImageView
+            android:id="@+id/ivCall"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_call"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Appeler"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/purple_500" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+```
+
+---
+
+### 6️⃣ **dialog_add_contact.xml** - Dialog ajout
+
+**Emplacement** : `app/src/main/res/layout/dialog_add_contact.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Champ Nom -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom complet"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Champ Téléphone -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Téléphone"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Champ Email -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email (optionnel)"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
+```
+
+---
+
+## 🎨 Fichiers Drawable
+
+Tous les fichiers drawable sont disponibles dans le fichier **[RESSOURCES.md](RESSOURCES.md)** :
+
+- ✅ `circle_bg.xml` - Fond circulaire avatar
+- ✅ `ic_add.xml` - Icône +
+- ✅ `ic_call.xml` - Icône téléphone
+
+---
+
+## 📦 Dépendances Gradle
+
+**Emplacement** : `app/build.gradle`
+
+```gradle
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+}
+```
+
+---
+
+## 🔍 AndroidManifest.xml
+
+**Emplacement** : `app/src/main/AndroidManifest.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tn.isitcom.contacts">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Contacts"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Material3.Light">
+        
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+    </application>
+
+</manifest>
+```
+
+---
+
+## 📋 Explication détaillée
 
 ### 1. Architecture RecyclerView
 
@@ -546,18 +716,18 @@ startActivity(callIntent);
 ```
 
 **ACTION_DIAL** : Ouvre le dialer (ne nécessite pas de permission)  
-**ACTION_CALL** : Appelle directement (permission CALL_PHONE requise)
+**ACTION_CALL** : Appelle directement (permission CALL_PHONE requise)  
 
 ---
 
-## 🎯 Tests à effectuer
+## 🧪 Tests à effectuer
 
 ### Test 1 : Affichage liste
 1. Lancer l'app
 2. **Attendu** : 5 contacts affichés avec avatars colorés
 
 ### Test 2 : Ajout contact
-1. Cliquer sur FAB
+1. Cliquer sur FAB (+)
 2. Remplir formulaire
 3. **Attendu** : Nouveau contact en bas de liste
 
@@ -588,7 +758,7 @@ startActivity(callIntent);
 
 ---
 
-## 📖 Concepts Android utilisés
+## 📚 Concepts Android utilisés
 
 ✅ **RecyclerView** : Liste performante et scrollable  
 ✅ **Adapter Pattern** : Lien données-vues  
@@ -598,7 +768,39 @@ startActivity(callIntent);
 ✅ **AlertDialog** : Dialogues de confirmation  
 ✅ **Intent implicite** : ACTION_DIAL  
 ✅ **notifyDataSetChanged()** : Actualisation de liste  
+✅ **Material Design 3** : TextInputLayout, Cards  
 
 ---
 
-🎓 **Projet pédagogique** - Module 6 - ISITCOM 2025/2026
+## ✅ Checklist avant exécution
+
+- [ ] Tous les fichiers Java copiés
+- [ ] Tous les layouts XML créés
+- [ ] Fichiers drawable ajoutés (voir RESSOURCES.md)
+- [ ] Dépendances Gradle configurées
+- [ ] AndroidManifest.xml correct
+- [ ] Package name : `tn.isitcom.contacts`
+- [ ] Sync Gradle réussi
+- [ ] Aucune erreur de compilation
+
+---
+
+## 🚀 Exécution
+
+1. Créer nouveau projet Android Studio
+   - Empty Views Activity
+   - Package : `tn.isitcom.contacts`
+   - Min SDK : API 24
+
+2. Copier tous les fichiers selon la structure
+
+3. Ajouter les dépendances dans `build.gradle`
+
+4. Sync Gradle
+
+5. Run sur émulateur ou appareil
+
+---
+
+👨‍🏫 **Cours Android ISITCOM 2025-2026**  
+📚 Module 6 : RecyclerView et listes dynamiques
