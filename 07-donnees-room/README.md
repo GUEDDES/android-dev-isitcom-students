@@ -12,7 +12,7 @@
 
 ## 1. Pourquoi Room ?
 
-Room est une bibliothèque Android qui facilite l'utilisation de SQLite : [file:2]
+Room est une bibliothèque Android qui facilite l'utilisation de SQLite : 
 
 - **Simplification** : moins de code boilerplate.
 - **Sécurité** : vérification à la compilation.
@@ -24,7 +24,7 @@ Alternatives : SQLite brut (complexe), SharedPreferences (données simples), Fir
 
 ## 2. Architecture Room
 
-Trois composants principaux : [file:2]
+Trois composants principaux : 
 
 - **Entity** : représente une table (classe Java annotée).
 - **DAO** (Data Access Object) : contient les requêtes SQL.
