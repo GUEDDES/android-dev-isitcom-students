@@ -1,59 +1,29 @@
-# Quiz - Module 7 : Room Database
+# Module 7 : Quiz d'auto-évaluation - Room Database
 
 ## Questions à choix multiples
 
 ### Question 1
-Qu'est-ce que Room ?
+Qu'est-ce que Room en Android ?
 
-A) Une base de données  
-B) Une bibliothèque Android pour SQLite  
-C) Un serveur de données  
-D) Un éditeur de base de données
+A) Un composant d'interface  
+B) Une bibliothèque pour SQLite  
+C) Un gestionnaire de fragments  
+D) Un layout
 
 <details>
 <summary>Réponse</summary>
-B) Bibliothèque officielle Android qui facilite l'utilisation de SQLite
+B) Une bibliothèque officielle Android pour faciliter l'utilisation de SQLite
 </details>
 
 ---
 
 ### Question 2
-Que représente une Entity ?
-
-A) Une requête SQL  
-B) Une table de la base de données  
-C) Une connexion  
-D) Un DAO
-
-<details>
-<summary>Réponse</summary>
-B) Une Entity = une table (classe annotée @Entity)
-</details>
-
----
-
-### Question 3
-Que signifie DAO ?
-
-A) Data Access Object  
-B) Database Android Object  
-C) Data Application Object  
-D) Direct Access Operation
-
-<details>
-<summary>Réponse</summary>
-A) Data Access Object - Interface contenant les méthodes CRUD
-</details>
-
----
-
-### Question 4
-Quelle annotation pour définir une table ?
+Quelle annotation définit une table dans Room ?
 
 A) @Table  
 B) @Entity  
 C) @Database  
-D) @Room
+D) @Model
 
 <details>
 <summary>Réponse</summary>
@@ -62,94 +32,122 @@ B) @Entity
 
 ---
 
-### Question 5
-Quelle annotation pour la clé primaire auto-incrémentée ?
+### Question 3
+Que représente DAO dans Room ?
 
-A) @Id(autoGenerate = true)  
-B) @PrimaryKey(autoGenerate = true)  
-C) @Key(auto = true)  
+A) Data Access Object  
+B) Database Application Object  
+C) Data Array Operation  
+D) Delete And Override
+
+<details>
+<summary>Réponse</summary>
+A) Data Access Object - Interface pour accéder aux données
+</details>
+
+---
+
+### Question 4
+Quelle annotation utiliser pour la clé primaire ?
+
+A) @Id  
+B) @PrimaryKey  
+C) @Key  
+D) @Primary
+
+<details>
+<summary>Réponse</summary>
+B) @PrimaryKey
+</details>
+
+---
+
+### Question 5
+Comment générer automatiquement l'ID ?
+
+A) @PrimaryKey(auto = true)  
+B) @PrimaryKey(generate = true)  
+C) @PrimaryKey(autoGenerate = true)  
 D) @AutoIncrement
 
 <details>
 <summary>Réponse</summary>
-B) @PrimaryKey(autoGenerate = true)
+C) @PrimaryKey(autoGenerate = true)
 </details>
 
 ---
 
 ### Question 6
-Quelle annotation pour insérer des données ?
+Où DOIT-ON exécuter les opérations Room ?
 
-A) @Insert  
-B) @Add  
-C) @Create  
-D) @Save
+A) Sur le thread principal  
+B) Sur un thread secondaire  
+C) N'importe où  
+D) Dans onCreate() uniquement
 
 <details>
 <summary>Réponse</summary>
-A) @Insert dans le DAO
+B) Toujours sur un thread secondaire (jamais sur UI thread)
 </details>
 
 ---
 
 ### Question 7
-Pourquoi ne JAMAIS faire d'opérations Room sur le thread principal ?
+Quelle annotation pour insérer des données ?
 
-A) C'est interdit par Room  
-B) Bloque l'interface (ANR - Application Not Responding)  
-C) Ça ne marche pas  
-D) C'est lent
+A) @Add  
+B) @Create  
+C) @Insert  
+D) @Save
 
 <details>
 <summary>Réponse</summary>
-B) Bloque l'UI et peut causer ANR (crash)
+C) @Insert
 </details>
 
 ---
 
 ### Question 8
-Comment exécuter une opération Room en arrière-plan ?
+Comment faire une requête personnalisée ?
 
-A) Directement dans onCreate()  
-B) new Thread(() -> { dao.insert(...) }).start()  
-C) AsyncTask (déprécié)  
-D) B ou C
+A) @Select  
+B) @Query  
+C) @Find  
+D) @Search
 
 <details>
 <summary>Réponse</summary>
-D) Thread, Executor, AsyncTask (déprécié), ou Coroutines (Kotlin)
+B) @Query("SELECT * FROM table")
 </details>
 
 ---
 
 ### Question 9
-Quelle annotation pour une requête SQL personnalisée ?
+Quel est le pattern recommandé pour utiliser Room ?
 
-A) @SQL  
-B) @Query  
-C) @Request  
-D) @Select
+A) Activity directement  
+B) Singleton Database  
+C) Nouvelle instance à chaque fois  
+D) Static methods
 
 <details>
 <summary>Réponse</summary>
-B) @Query("SELECT * FROM ...")
+B) Singleton Database (une seule instance dans toute l'app)
 </details>
 
 ---
 
 ### Question 10
-Comment compter le nombre d'enregistrements ?
+Que fait `fallbackToDestructiveMigration()` ?
 
-```java
-A) @Query("COUNT * FROM users")
-B) @Query("SELECT COUNT(*) FROM users")
-C) @Count("users")
-D) dao.count()
-```
+A) Fait une migration propre  
+B) Supprime et recrée la base si version change  
+C) Sauvegarde les données  
+D) Bloque les changements
 
 <details>
 <summary>Réponse</summary>
-B) @Query("SELECT COUNT(*) FROM users") int getCount();
+B) Supprime et recrée la base (perte de données) - à utiliser en développement
 </details>
 
 ---
@@ -165,146 +163,103 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
-    // getters/setters
 }
 ```
 
-A) Crée une requête  
+A) Crée une interface  
 B) Définit une table "users" avec colonnes id et name  
 C) Crée un DAO  
-D) Ouvre une connexion
+D) Exécute une requête
 
 <details>
 <summary>Réponse</summary>
-B) Déclare une table avec 2 colonnes
+B) Définit la structure d'une table "users" avec id auto-incrémenté
 </details>
 
 ---
 
 ### Question 12
-Que manque-t-il dans cette Database ?
+Quelle est l'erreur dans ce code ?
 
 ```java
-@Database(entities = {User.class}, version = 1)
-public abstract class AppDatabase extends RoomDatabase {
-    // ???
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    AppDatabase db = AppDatabase.getInstance(this);
+    User user = new User("Alice");
+    db.userDao().insert(user);
 }
 ```
 
-A) Rien  
-B) La méthode abstraite pour obtenir le DAO  
-C) Le constructeur  
-D) L'instance
+A) Pas d'erreur  
+B) Opération Room sur thread principal  
+C) Manque setContentView  
+D) getInstance mal appelé
 
 <details>
 <summary>Réponse</summary>
-B) public abstract UserDao userDao();
+B) L'insertion est sur le thread principal - doit être dans un Thread ou Executor
 </details>
 
 ---
 
 ### Question 13
-Quelle est l'erreur ?
+Que retourne cette requête ?
 
 ```java
-public void addUser(User user) {
-    AppDatabase db = AppDatabase.getInstance(this);
-    db.userDao().insert(user); // Exécuté sur UI thread
-}
+@Query("SELECT * FROM tasks WHERE completed = 1")
+List<Task> getCompletedTasks();
 ```
 
-A) Pas d'erreur  
-B) Opération sur thread principal (crash)  
-C) Mauvaise syntaxe  
-D) Database non initialisée
+A) Toutes les tâches  
+B) Les tâches non complétées  
+C) Les tâches complétées  
+D) La première tâche
 
 <details>
 <summary>Réponse</summary>
-B) Doit être dans new Thread() ou Executor
+C) Liste des tâches où completed = 1 (true)
 </details>
 
 ---
 
 ### Question 14
-Comment rechercher par nom ?
+Comment corriger ce code pour le rendre asynchrone ?
 
 ```java
-@Dao
-public interface UserDao {
-    @Query("SELECT * FROM users WHERE name = :userName")
-    User findByName(String userName);
-}
+User user = new User("Bob");
+db.userDao().insert(user);
 ```
-
-Que représente `:userName` ?
-
-A) Une colonne  
-B) Un paramètre de la méthode  
-C) Une constante  
-D) Une erreur
 
 <details>
 <summary>Réponse</summary>
-B) Paramètre lié à l'argument de la méthode
+
+```java
+new Thread(() -> {
+    User user = new User("Bob");
+    db.userDao().insert(user);
+}).start();
+
+// Ou avec Executor
+Executors.newSingleThreadExecutor().execute(() -> {
+    db.userDao().insert(user);
+});
+```
 </details>
 
 ---
+
+## Questions pratiques
 
 ### Question 15
-Que fait fallbackToDestructiveMigration() ?
-
-```java
-Room.databaseBuilder(...)
-    .fallbackToDestructiveMigration()
-    .build();
-```
-
-A) Sauvegarde les données  
-B) Supprime et recrée la DB si changement de version  
-C) Migre automatiquement  
-D) Crée un backup
-
-<details>
-<summary>Réponse</summary>
-B) Détruit et recrée la DB (perte de données) - à éviter en production
-</details>
-
----
-
-## Questions ouvertes
-
-### Question 16
-Expliquez le pattern Singleton pour la Database.
-
-<details>
-<summary>Réponse</summary>
-Une seule instance de la Database existe dans toute l'application. Cela évite les multiples connexions coûteuses et les conflits d'accès. Implémentation via getInstance() avec synchronized.
-</details>
-
----
-
-### Question 17
-Différence entre @Insert et @Query("INSERT...") ?
-
-<details>
-<summary>Réponse</summary>
-- **@Insert** : Room génère automatiquement le SQL, simple et rapide
-- **@Query("INSERT...")** : SQL manuel, plus flexible pour insérer avec conditions complexes
-</details>
-
----
-
-## Exercice pratique
-
-### Question 18
 Créez une Entity "Product" avec :
-- id (auto)
+- id (auto-généré)
 - name (String)
 - price (double)
-- stock (int)
+- Table nommée "products"
 
 <details>
-<summary>Solution</summary>
+<summary>Réponse</summary>
 
 ```java
 @Entity(tableName = "products")
@@ -313,44 +268,31 @@ public class Product {
     @PrimaryKey(autoGenerate = true)
     private int id;
     
-    @ColumnInfo(name = "name")
     private String name;
-    
-    @ColumnInfo(name = "price")
     private double price;
     
-    @ColumnInfo(name = "stock")
-    private int stock;
-    
-    public Product(String name, double price, int stock) {
+    public Product(String name, double price) {
         this.name = name;
         this.price = price;
-        this.stock = stock;
     }
     
-    // Getters et Setters
+    // Getters et setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    
     public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
-    
-    public int getStock() { return stock; }
-    public void setStock(int stock) { this.stock = stock; }
 }
 ```
 </details>
 
 ---
 
-### Question 19
-Créez le DAO correspondant avec CRUD complet.
+### Question 16
+Créez un DAO pour Product avec méthodes CRUD de base.
 
 <details>
-<summary>Solution</summary>
+<summary>Réponse</summary>
 
 ```java
 @Dao
@@ -371,14 +313,121 @@ public interface ProductDao {
     @Query("SELECT * FROM products WHERE id = :productId")
     Product getProductById(int productId);
     
-    @Query("SELECT * FROM products WHERE price < :maxPrice")
-    List<Product> getProductsCheaperThan(double maxPrice);
-    
     @Query("DELETE FROM products")
     void deleteAll();
+}
+```
+</details>
+
+---
+
+### Question 17
+Créez la classe Database pour Product.
+
+<details>
+<summary>Réponse</summary>
+
+```java
+@Database(entities = {Product.class}, version = 1, exportSchema = false)
+public abstract class AppDatabase extends RoomDatabase {
     
-    @Query("SELECT COUNT(*) FROM products")
-    int getCount();
+    public abstract ProductDao productDao();
+    
+    private static AppDatabase instance;
+    
+    public static synchronized AppDatabase getInstance(Context context) {
+        if (instance == null) {
+            instance = Room.databaseBuilder(
+                context.getApplicationContext(),
+                AppDatabase.class,
+                "products_database"
+            )
+            .fallbackToDestructiveMigration()
+            .build();
+        }
+        return instance;
+    }
+}
+```
+</details>
+
+---
+
+### Question 18
+Comment rechercher des produits par nom (LIKE) ?
+
+<details>
+<summary>Réponse</summary>
+
+```java
+@Dao
+public interface ProductDao {
+    
+    @Query("SELECT * FROM products WHERE name LIKE '%' || :search || '%'")
+    List<Product> searchProducts(String search);
+}
+
+// Utilisation
+List<Product> results = dao.searchProducts("phone");
+// Retourne tous produits contenant "phone"
+```
+</details>
+
+---
+
+### Question 19
+Quelle est la différence entre `List<Product>` et `LiveData<List<Product>>` en retour ?
+
+<details>
+<summary>Réponse</summary>
+
+- `List<Product>` : Données statiques, une seule lecture
+- `LiveData<List<Product>>` : Observable, met à jour automatiquement l'UI quand les données changent
+
+```java
+// Static
+@Query("SELECT * FROM products")
+List<Product> getAll();
+
+// Observable (recommandé)
+@Query("SELECT * FROM products")
+LiveData<List<Product>> getAllLive();
+```
+</details>
+
+---
+
+### Question 20
+Comment gérer une migration de version 1 à 2 (ajout colonne "category") ?
+
+<details>
+<summary>Réponse</summary>
+
+```java
+@Database(entities = {Product.class}, version = 2)
+public abstract class AppDatabase extends RoomDatabase {
+    
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                "ALTER TABLE products ADD COLUMN category TEXT DEFAULT 'General'"
+            );
+        }
+    };
+    
+    public static synchronized AppDatabase getInstance(Context context) {
+        if (instance == null) {
+            instance = Room.databaseBuilder(
+                context.getApplicationContext(),
+                AppDatabase.class,
+                "products_database"
+            )
+            .addMigrations(MIGRATION_1_2)
+            .build();
+        }
+        return instance;
+    }
 }
 ```
 </details>
@@ -387,10 +436,21 @@ public interface ProductDao {
 
 ## Barème
 
-- **18-19/19** : Excellent ! Maîtrise complète de Room
-- **15-17/19** : Très bien
-- **12-14/19** : Bien, quelques révisions
-- **< 12/19** : Revoir le module en profondeur
+- **18-20/20** : Excellent ! Maîtrise complète de Room
+- **15-17/20** : Très bien, quelques détails à revoir
+- **12-14/20** : Bien, revoir les concepts avancés
+- **< 12/20** : Revoir le module en détail
+
+---
+
+## Points clés à retenir
+
+✅ **Entity** = Table avec @PrimaryKey  
+✅ **DAO** = Interface avec @Insert, @Update, @Delete, @Query  
+✅ **Database** = Singleton avec getInstance()  
+✅ **Thread** = Jamais d'opération Room sur UI thread  
+✅ **Migration** = Gérer changements de version proprement  
+✅ **LiveData** = Observer automatiquement les changements  
 
 ---
 
